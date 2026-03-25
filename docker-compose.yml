@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  mysql-db:
+    image: mysql:8.0
+    container_name: mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword   # Password for the root user (not recommended for production)
+      MYSQL_DATABASE: my_spring_db        # Name of the database to create
+      MYSQL_USER: springuser              # User to access the database
+      MYSQL_PASSWORD: springpassword      # Password for the above user
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql         # Persist MySQL data
+
+volumes:
+  mysql_data:
