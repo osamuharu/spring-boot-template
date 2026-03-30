@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '4.0.4'
     id 'io.spring.dependency-management' version '1.1.7'
+    id 'org.liquibase.gradle' version '2.2.2'
 }
 
 group = 'com.osamuharu'
@@ -14,18 +15,57 @@ java {
     }
 }
 
+def env = { String key ->
+    project.findProperty(key)?.toString()
+            ?: System.getenv(key)
+            ?: { throw new GradleException("Missing required property: $key") }()
+}
+
+def dbUrl      = env("DB_MYSQL_URL")
+def dbUsername = env("DB_MYSQL_USERNAME")
+def dbPassword = env("DB_MYSQL_PASSWORD")
+
+bootRun {
+    environment "DB_MYSQL_URL", dbUrl
+    environment "DB_MYSQL_USERNAME", dbUsername
+    environment "DB_MYSQL_PASSWORD", dbPassword
+}
+
 repositories {
     mavenCentral()
 }
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
     //Database
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-liquibase:4.1.0-M4'
+    implementation 'org.liquibase:liquibase-core:5.0.2'
     runtimeOnly 'com.mysql:mysql-connector-j:8.3.0'
+
+    //Liquibase
+    liquibaseRuntime 'org.liquibase:liquibase-core:5.0.2'
+    liquibaseRuntime 'com.mysql:mysql-connector-j:8.3.0'
+    liquibaseRuntime 'info.picocli:picocli:4.7.7'
+}
+
+liquibase {
+    activities {
+        register("main") {
+            changelogFile 'src/main/resources/db/changelog/db.changelog-master.yaml'
+            url dbUrl
+            username dbUsername
+            password dbPassword
+            driver 'com.mysql.cj.jdbc.Driver'
+            logLevel 'info'
+        }
+    }
+
+    runList = 'main'
 }
 
 tasks.named('test') {

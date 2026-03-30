@@ -41,3 +41,6 @@ docker-compose.*.yml
 
 ### Spring Boot ###
 src/main/resources/application-*.yaml
+
+### Local environment ###
+gradle.properties
