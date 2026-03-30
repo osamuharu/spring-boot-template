@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20260330-tag-v0.0.1
+      author: osamuharu
+      changes:
+        - tagDatabase:
+            tag: v0.0.1
