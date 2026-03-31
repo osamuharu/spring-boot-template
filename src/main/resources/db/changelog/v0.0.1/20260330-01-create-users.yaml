@@ -3,6 +3,11 @@ databaseChangeLog:
       id: 20260330-01-create-users
       author: osamuharu
       changes:
+        - preConditions:
+            onFail: MARK_RAN
+            not:
+              tableExists:
+                tableName: users
         - createTable:
             tableName: users
             columns:
