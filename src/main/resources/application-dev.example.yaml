@@ -1,10 +1,8 @@
 spring:
-  application:
-    name: spring-boot-template
   datasource:
     url: jdbc:mysql://localhost:3306/template?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-    username: springuser
-    password: springpassword
+    username: yourusername
+    password: yourpassword
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
@@ -14,4 +12,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
   liquibase:
-    enabled: false
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+    contexts: dev
+    drop-first: true

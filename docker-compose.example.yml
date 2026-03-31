@@ -6,10 +6,10 @@ services:
     container_name: mysql
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword   # Password for the root user (not recommended for production)
+      MYSQL_ROOT_PASSWORD: root-password  # Password for the root user (not recommended for production)
       MYSQL_DATABASE: my_spring_db        # Name of the database to create
-      MYSQL_USER: springuser              # User to access the database
-      MYSQL_PASSWORD: springpassword      # Password for the above user
+      MYSQL_USER: your-username           # User to access the database
+      MYSQL_PASSWORD: your-password       # Password for the above user
     ports:
       - "3306:3306"
     volumes:
