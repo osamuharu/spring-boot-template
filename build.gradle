@@ -26,6 +26,12 @@ dockerCompose {
     }
 }
 
+configurations {
+    configureEach {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    }
+}
+
 def env = { String key ->
     return  project.findProperty(key)?.toString()
             ?: System.getenv(key)
@@ -61,6 +67,14 @@ dependencies {
     liquibaseRuntime 'org.liquibase:liquibase-core:5.0.2'
     liquibaseRuntime 'com.mysql:mysql-connector-j:8.3.0'
     liquibaseRuntime 'info.picocli:picocli:4.7.7'
+
+    // Log4j2
+    implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+    implementation 'com.lmax:disruptor:4.0.0'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml'
+
+    // Utilities
+    implementation 'org.projectlombok:lombok:1.18.42'
 }
 
 liquibase {

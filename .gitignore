@@ -45,3 +45,6 @@ src/main/resources/application-dev.yaml
 
 ### Local environment ###
 gradle.properties
+
+### Log files ###
+logs/

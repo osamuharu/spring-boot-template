@@ -16,3 +16,5 @@ spring:
     change-log: classpath:db/changelog/db.changelog-master.yaml
     contexts: dev
     drop-first: true
+  logging:
+    config: classpath:log4j2-dev.yaml

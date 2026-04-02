@@ -1,0 +1,43 @@
+Configuration:
+  status: warn
+
+  Properties:
+    Property:
+      - name: "CONSOLE_PATTERN"
+        value: "%style{%d{yyyy-MM-dd HH:mm:ss.SSS}}{black} %highlight{%-5level} [%style{%t}{bright,blue}] %style{%C{1.}}{bright,yellow}: %msg%n%throwable"
+
+  Appenders:
+    Console:
+      name: "ConsoleAppender"
+      target: "SYSTEM_OUT"
+      follow: true
+      PatternLayout:
+        pattern: "${CONSOLE_PATTERN}"
+
+  Loggers:
+    Logger:
+      - name: "com.osamuharu.template"
+        level: "debug"
+        additivity: false
+        AppenderRef:
+          - ref: "ConsoleAppender"
+
+      - name: "org.hibernate.SQL"
+        level: "debug"
+        additivity: false
+        AppenderRef:
+          - ref: "ConsoleAppender"
+
+      - name: "org.hibernate.orm.jdbc.bind"
+        level: "trace"
+        additivity: false
+        AppenderRef:
+          - ref: "ConsoleAppender"
+
+      - name: "org.springframework"
+        level: "info"
+
+    Root:
+      level: "info"
+      AppenderRef:
+        - ref: "ConsoleAppender"

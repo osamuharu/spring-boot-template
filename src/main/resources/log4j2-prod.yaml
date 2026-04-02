@@ -1,0 +1,76 @@
+Configuration:
+  status: warn
+  monitorInterval: 30
+
+  Properties:
+    Property:
+      - name: "LOG_PATTERN"
+        value: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%15.15t] %-5level %-40.40c{1.} : %msg%n%throwable"
+      - name: "CONSOLE_PATTERN"
+        value: "%style{%d{yyyy-MM-dd HH:mm:ss.SSS}}{black} %highlight{%-5level} [%style{%t}{bright,blue}] %style{%C{1.}}{bright,yellow}: %msg%n%throwable"
+      - name: "BASE_LOG_DIR"
+        value: "logs"
+      - name: "PROJECT_NAME"
+        value: "template"
+
+  Appenders:
+    Console:
+      name: "ConsoleAppender"
+      target: "SYSTEM_OUT"
+      follow: true
+      PatternLayout:
+        pattern: "${CONSOLE_PATTERN}"
+
+    RollingFile:
+      - name: "FileAppender"
+        fileName: "${BASE_LOG_DIR}/${PROJECT_NAME}.log"
+        filePattern: "${BASE_LOG_DIR}/${PROJECT_NAME}-%d{yyyy-MM-dd}-%i.log.gz"
+        PatternLayout:
+          pattern: "${LOG_PATTERN}"
+        Policies:
+          TimeBasedTriggeringPolicy:
+            interval: 1
+          SizeBasedTriggeringPolicy:
+            size: "20MB"
+        DefaultRolloverStrategy:
+          max: 30
+
+      - name: "ErrorFileAppender"
+        fileName: "${BASE_LOG_DIR}/${PROJECT_NAME}-error.log"
+        filePattern: "${BASE_LOG_DIR}/${PROJECT_NAME}-error-%d{yyyy-MM-dd}-%i.log.gz"
+        LevelRangeFilter:
+          minLevel: "ERROR"
+          maxLevel: "ERROR"
+          onMatch: "ACCEPT"
+          onMismatch: "DENY"
+        PatternLayout:
+          pattern: "${LOG_PATTERN}"
+        Policies:
+          TimeBasedTriggeringPolicy:
+            interval: 1
+          SizeBasedTriggeringPolicy:
+            size: "20MB"
+        DefaultRolloverStrategy:
+          max: 30
+
+  Loggers:
+    Logger:
+      - name: "com.osamuharu.template"
+        level: "info"
+        additivity: false
+        AppenderRef:
+          - ref: "ConsoleAppender"
+          - ref: "FileAppender"
+          - ref: "ErrorFileAppender"
+
+      - name: "org.springframework"
+        level: "warn"
+      - name: "org.hibernate"
+        level: "warn"
+
+    Root:
+      level: "info"
+      AppenderRef:
+        - ref: "ConsoleAppender"
+        - ref: "FileAppender"
+        - ref: "ErrorFileAppender"
