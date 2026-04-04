@@ -12,19 +12,21 @@ mysql = "8.3.0"
 picocli = "4.7.7"
 disruptor = "4.0.0"
 lombok = "1.18.42"
+mapstruct = "1.6.3"
 
 [libraries]
 # Spring Boot Starters
-spring-boot-starter = { group = "org.springframework.boot", name = "spring-boot-starter"}
+spring-boot-starter = { group = "org.springframework.boot", name = "spring-boot-starter" }
 spring-boot-starter-web = { group = "org.springframework.boot", name = "spring-boot-starter-web" }
 spring-boot-starter-data-jpa = { group = "org.springframework.boot", name = "spring-boot-starter-data-jpa" }
+spring-boot-starter-validation = { group = "org.springframework.boot", name = "spring-boot-starter-validation" }
 
 # Database
 mysql-connector = { group = "com.mysql", name = "mysql-connector-j", version.ref = "mysql" }
 
 # Liquibase
 liquibase-core = { group = "org.liquibase", name = "liquibase-core", version.ref = "liquibase" }
-spring-boot-starter-liquibase = { group = "org.springframework.boot", name = "spring-boot-starter-liquibase", version.ref = "liquibaseSpringBoot"}
+spring-boot-starter-liquibase = { group = "org.springframework.boot", name = "spring-boot-starter-liquibase", version.ref = "liquibaseSpringBoot" }
 
 # Logging
 spring-boot-starter-log4j2 = { group = "org.springframework.boot", name = "spring-boot-starter-log4j2" }
@@ -34,6 +36,7 @@ picocli = { group = "info.picocli", name = "picocli", version.ref = "picocli" }
 disruptor = { group = "com.lmax", name = "disruptor", version.ref = "disruptor" }
 lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok" }
 jackson-dataformat-yaml = { group = "com.fasterxml.jackson.dataformat", name = "jackson-dataformat-yaml" }
+mapstruct = { group = "org.mapstruct", name = "mapstruct", version.ref = "mapstruct" }
 
 # Testing
 spring-boot-starter-test = { group = "org.springframework.boot", name = "spring-boot-starter-test" }
