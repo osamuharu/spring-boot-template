@@ -1,0 +1,58 @@
+plugins {
+    alias(libs.plugins.liquibase)
+}
+
+bootJar { enabled = true }
+
+dependencies {
+    implementation project(':user')
+
+    implementation libs.spring.boot.starter
+    implementation libs.spring.boot.starter.liquibase
+    implementation libs.liquibase.core
+
+    liquibaseRuntime libs.liquibase.core
+    liquibaseRuntime libs.mysql.connector
+    liquibaseRuntime libs.picocli
+}
+
+def env = { String key -> project.findProperty(key)?.toString() ?: System.getenv(key) }
+final def dbUrl = env("db.mysql.url")
+final def dbUsername = env("db.mysql.username")
+final def dbPassword = env("db.mysql.password")
+
+liquibase {
+    activities {
+        register("main") {
+            changelogFile 'src/main/resources/db/changelog/db.changelog-master.yaml'
+            url dbUrl
+            username dbUsername
+            password dbPassword
+            driver 'com.mysql.cj.jdbc.Driver'
+            logLevel 'info'
+        }
+    }
+    runList = 'main'
+}
+
+tasks.named('bootRun') {
+    environment "DB_MYSQL_URL", env("db.mysql.url")
+    environment "DB_MYSQL_USERNAME", env("db.mysql.username")
+    environment "DB_MYSQL_PASSWORD", env("db.mysql.password")
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+
+    // Environment variables for tests
+    environment "DB_MYSQL_URL", dbUrl
+    environment "DB_MYSQL_USERNAME", dbUsername
+    environment "DB_MYSQL_PASSWORD", dbPassword
+}
+
+tasks.register('runDev') {
+    group = 'Development'
+    dependsOn ':devComposeUp'
+    dependsOn 'bootRun'
+    tasks.named('bootRun').get().mustRunAfter(':devComposeUp')
+}

@@ -41,7 +41,7 @@ docker-compose.*.yml
 !docker-compose.example.yml
 
 ### Spring Boot ###
-src/main/resources/application-dev.yaml
+*application-dev.yaml
 
 ### Local environment ###
 gradle.properties

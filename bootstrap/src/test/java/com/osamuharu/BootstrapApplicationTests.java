@@ -1,10 +1,10 @@
-package com.osamuharu.template;
+package com.osamuharu;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SpringBootTemplateApplicationTests {
+class BootstrapApplicationTests {
 	
 	@Test
 	void contextLoads() {

@@ -1,117 +1,74 @@
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
+
 plugins {
-    id 'java'
-    id 'org.springframework.boot' version '4.0.4'
-    id 'io.spring.dependency-management' version '1.1.7'
-    id 'org.liquibase.gradle' version '2.2.2'
-    id 'com.avast.gradle.docker-compose' version "0.17.12"
+    alias(libs.plugins.spring.boot) apply false
+    alias(libs.plugins.spring.dependency.management) apply false
+    alias(libs.plugins.liquibase) apply false
+    alias(libs.plugins.docker.compose)
 }
 
-group = 'com.osamuharu'
-version = '0.0.1-SNAPSHOT'
-description = 'spring-boot-template'
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
-    }
-}
-
+// Global Docker Compose Config
 dockerCompose {
     waitForTcpPorts = true
     stopContainers = true
-
     dev {
         projectName = 'template-dev'
         useComposeFiles = ['docker-compose.dev.yml']
     }
 }
 
-configurations {
-    configureEach {
-        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
-    }
-}
+allprojects {
+    group = 'com.osamuharu'
+    version = '0.0.1-SNAPSHOT'
 
-def env = { String key ->
-    return project.findProperty(key)?.toString()
-            ?: System.getenv(key)
-}
+    apply plugin: 'java'
 
-final def dbUrl = env("db.mysql.url")
-final def dbUsername = env("db.mysql.username")
-final def dbPassword = env("db.mysql.password")
-
-bootRun {
-    environment "DB_MYSQL_URL", dbUrl
-    environment "DB_MYSQL_USERNAME", dbUsername
-    environment "DB_MYSQL_PASSWORD", dbPassword
-}
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-
-    //Database
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-liquibase:4.1.0-M4'
-    implementation 'org.liquibase:liquibase-core:5.0.2'
-    runtimeOnly 'com.mysql:mysql-connector-j:8.3.0'
-
-    //Liquibase
-    liquibaseRuntime 'org.liquibase:liquibase-core:5.0.2'
-    liquibaseRuntime 'com.mysql:mysql-connector-j:8.3.0'
-    liquibaseRuntime 'info.picocli:picocli:4.7.7'
-
-    // Log4j2
-    implementation 'org.springframework.boot:spring-boot-starter-log4j2'
-    implementation 'com.lmax:disruptor:4.0.0'
-    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml'
-
-    // Utilities
-    implementation 'org.projectlombok:lombok:1.18.42'
-
-    // Test
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-}
-
-liquibase {
-    activities {
-        register("main") {
-            changelogFile 'src/main/resources/db/changelog/db.changelog-master.yaml'
-            url dbUrl
-            username dbUsername
-            password dbPassword
-            driver 'com.mysql.cj.jdbc.Driver'
-            logLevel 'info'
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
         }
     }
 
-    runList = 'main'
+    repositories {
+        mavenCentral()
+    }
 }
 
-tasks.named('test') {
-    useJUnitPlatform()
+subprojects {
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
 
-    // Environment variables for tests
-    environment "DB_MYSQL_URL", dbUrl
-    environment "DB_MYSQL_USERNAME", dbUsername
-    environment "DB_MYSQL_PASSWORD", dbPassword
-}
 
-tasks.withType(Test).configureEach {
-    jvmArgs("-XX:+EnableDynamicAgentLoading")
-}
+    // Manage Spring Boot dependencies using the BOM to ensure consistent versions across all modules
+    dependencyManagement {
+        imports {
+            mavenBom SpringBootPlugin.BOM_COORDINATES
+        }
+    }
 
-tasks.register('runDev') {
-    group = 'Development'
+    configurations {
+        configureEach {
+            exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+        }
+    }
 
-    dependsOn 'devComposeUp'
-    dependsOn 'bootRun'
+    dependencies {
+        // Log4j2
+        implementation libs.spring.boot.starter.log4j2
+        implementation libs.disruptor
+        implementation libs.jackson.dataformat.yaml
 
-    tasks.named('bootRun').get().mustRunAfter('devComposeUp')
+        // Lombok
+        compileOnly libs.lombok
+        annotationProcessor libs.lombok
+
+        // Testing
+        testImplementation libs.spring.boot.starter.test
+        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    }
+
+    tasks.withType(Test).configureEach {
+        useJUnitPlatform()
+        jvmArgs("-XX:+EnableDynamicAgentLoading")
+    }
 }

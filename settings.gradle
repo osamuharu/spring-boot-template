@@ -1,1 +1,5 @@
 rootProject.name = 'template'
+
+include 'user'
+include 'core'
+include 'bootstrap'
