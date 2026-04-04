@@ -5,5 +5,8 @@ bootJar { enabled = false }
 jar { enabled = true }
 
 dependencies {
-    implementation project(':core')
+    implementation project(':shared')
+    implementation libs.spring.boot.starter.web
+    implementation libs.spring.boot.starter.validation
+    implementation libs.mapstruct
 }
