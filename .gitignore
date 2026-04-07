@@ -45,6 +45,7 @@ docker-compose.*.yml
 
 ### Local environment ###
 gradle.properties
+core-dev.properties
 
 ### Log files ###
 logs/

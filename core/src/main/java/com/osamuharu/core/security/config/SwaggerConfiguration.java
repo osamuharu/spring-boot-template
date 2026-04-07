@@ -15,7 +15,6 @@ public class SwaggerConfiguration {
 	
 	private final BuildProperties buildProperties;
 	
-	
 	@Bean
 	public OpenAPI customOpenAPI() {
 		final String appVersion = buildProperties.getVersion();

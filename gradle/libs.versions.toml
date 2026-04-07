@@ -15,6 +15,9 @@ disruptor = "4.0.0"
 lombok = "1.18.42"
 mapstruct = "1.6.3"
 swagger = "3.0.2"
+jwtApi = "0.13.0"
+jwtImpl = "0.13.0"
+jwtJackson = "0.13.0"
 
 [libraries]
 # Spring Boot Starters
@@ -43,6 +46,11 @@ mapstruct = { group = "org.mapstruct", name = "mapstruct", version.ref = "mapstr
 
 # Security
 spring-boot-starter-security = { group = "org.springframework.boot", name = "spring-boot-starter-security", version.ref = "springBoot" }
+
+# JWT
+jjwt-api = { group = "io.jsonwebtoken", name = "jjwt-api", version.ref = "jwtApi" }
+jjwt-impl = { group = "io.jsonwebtoken", name = "jjwt-impl", version.ref = "jwtImpl" }
+jjwt-jackson = { group = "io.jsonwebtoken", name = "jjwt-jackson", version.ref = "jwtJackson" }
 
 # Testing
 spring-boot-starter-test = { group = "org.springframework.boot", name = "spring-boot-starter-test" }

@@ -5,6 +5,7 @@ bootJar { enabled = false }
 jar { enabled = true }
 
 dependencies {
+    implementation project(":shared")
     implementation project(":user")
 
     implementation libs.spring.boot.starter.web
@@ -13,4 +14,9 @@ dependencies {
     // Swagger
     implementation libs.spring.boot.starter.webmvc
     implementation libs.springdoc.openapi.ui
+
+    // JWT
+    implementation libs.jjwt.api
+    implementation libs.jjwt.impl
+    implementation libs.jjwt.jackson
 }
