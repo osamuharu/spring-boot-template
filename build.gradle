@@ -46,6 +46,11 @@ subprojects {
         }
     }
 
+    // Using Build Properties to generate build info for Spring Boot Actuator
+    springBoot {
+        buildInfo()
+    }
+
     configurations {
         configureEach {
             exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
