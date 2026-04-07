@@ -7,6 +7,4 @@ jar { enabled = true }
 dependencies {
     implementation libs.spring.boot.starter.web
     implementation libs.spring.boot.starter.security
-    implementation 'org.springframework:spring-context'
-    implementation libs.spring.boot.starter.validation
 }
