@@ -6,8 +6,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class RestResponse<T> {
-    private Integer statusCode;
-    private Object message;
-    private T data;
-
+	private int statusCode;
+	private String message;
+	private T data;
 }

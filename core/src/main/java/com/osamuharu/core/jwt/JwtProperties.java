@@ -1,4 +1,4 @@
-package com.osamuharu.core.security.jwt;
+package com.osamuharu.core.jwt;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 @PropertySource("classpath:core-dev.properties")
 @ConfigurationProperties(prefix = "jwt")
 public class JwtProperties {
-	private String secret;
-	private long accessTokenExpire;
+
+  private String secret;
+  private long accessTokenExpire;
 }

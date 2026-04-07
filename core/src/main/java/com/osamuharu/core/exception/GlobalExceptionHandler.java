@@ -1,5 +1,8 @@
 package com.osamuharu.core.exception;
 
+import com.osamuharu.shared.exception.AppException;
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -7,52 +10,81 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
-import java.util.HashMap;
-import java.util.Map;
-
-@RestControllerAdvice
+@RestControllerAdvice(basePackages = "com.osamuharu")
 public class GlobalExceptionHandler {
-    @ExceptionHandler(AppException.class)
-    public ResponseEntity<ErrorDetail> handleAppException(AppException ex) {
-        return ResponseEntity
-                       .status(ex.getStatusCode())
-                       .body(new ErrorDetail(
-                               ex.getName(),
-                               ex.getStatusCode().value(),
-                               ex.getMessage(),
-                               System.currentTimeMillis(), ex.getError()));
-    }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorDetail> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getFieldErrors()
-                .forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
-        return ResponseEntity
-                       .status(ex.getStatusCode().value())
-                       .body(new ErrorDetail(
-                               "MethodArgumentNotValidException",
-                               ex.getStatusCode().value(),
-                               "Field validation error",
-                               System.currentTimeMillis(), errors));
-    }
+  @ExceptionHandler(AppException.class)
+  public ResponseEntity<ErrorResponse> handleAppException(AppException ex) {
+    ErrorResponse errorResponse = ErrorResponse.builder()
+        .name(ex.getName())
+        .status(ex.getStatusCode()
+            .value())
+        .message(ex.getMessage())
+        .timestamp(System.currentTimeMillis())
+        .error(ex.getError())
+        .build();
 
-    @ExceptionHandler(NoHandlerFoundException.class)
-    public ResponseEntity<ErrorDetail> handleNoHandlerFoundException(NoHandlerFoundException ex) {
-        return ResponseEntity
-                       .status(ex.getStatusCode().value())
-                       .body(new ErrorDetail(
-                               "NoHandlerFoundException",
-                               ex.getStatusCode().value(),
-                               "API path not found",
-                               System.currentTimeMillis(), null));
-    }
+    return ResponseEntity
+        .status(ex.getStatusCode())
+        .body(errorResponse);
+  }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorDetail> handleUnwantedException(Exception ex) {
-        return ResponseEntity
-                       .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                       .body(new ErrorDetail("ServerError", 500, "Something went wrong",
-                               System.currentTimeMillis(), "System error: " + ex.getMessage() + ex.getClass().getSimpleName()));
-    }
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(
+      MethodArgumentNotValidException ex) {
+
+    Map<String, String> errors = new HashMap<>();
+
+    ex.getBindingResult()
+        .getFieldErrors()
+        .forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
+
+    ErrorResponse errorResponse = ErrorResponse.builder()
+        .name("MethodArgumentNotValidException")
+        .status(ex.getStatusCode()
+            .value())
+        .message("Field validation error")
+        .timestamp(System.currentTimeMillis())
+        .error(errors)
+        .build();
+
+    return ResponseEntity
+        .status(ex.getStatusCode()
+            .value())
+        .body(errorResponse);
+  }
+
+  @ExceptionHandler(NoHandlerFoundException.class)
+  public ResponseEntity<ErrorResponse> handleNoHandlerFoundException(NoHandlerFoundException ex) {
+
+    ErrorResponse errorResponse = ErrorResponse.builder()
+        .name("NoHandlerFoundException")
+        .status(ex.getStatusCode()
+            .value())
+        .message("API path not found")
+        .timestamp(System.currentTimeMillis())
+        .error(null)
+        .build();
+
+    return ResponseEntity
+        .status(ex.getStatusCode()
+            .value())
+        .body(errorResponse);
+  }
+
+  @ExceptionHandler(Exception.class)
+  public ResponseEntity<ErrorResponse> handleUnwantedException(Exception ex) {
+    ErrorResponse errorResponse = ErrorResponse.builder()
+        .name("ServerError")
+        .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+        .message("Something went wrong")
+        .timestamp(System.currentTimeMillis())
+        .error("System error: " + ex.getMessage() + ex.getClass()
+            .getSimpleName())
+        .build();
+
+    return ResponseEntity
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .body(errorResponse);
+  }
 }
