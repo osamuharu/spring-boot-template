@@ -1,7 +1,5 @@
 package com.osamuharu.core.exception;
 
-import com.osamuharu.shared.exception.AppException;
-import io.jsonwebtoken.JwtException;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
