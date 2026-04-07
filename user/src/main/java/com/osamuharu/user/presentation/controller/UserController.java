@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping(value = "/{version}/users", version = "v1")
 @RequiredArgsConstructor
 public class UserController {
 	private final UserService service;

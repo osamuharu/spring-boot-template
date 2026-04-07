@@ -5,6 +5,7 @@ plugins {
 bootJar { enabled = true }
 
 dependencies {
+    implementation project(':core')
     implementation project(':user')
 
     implementation libs.spring.boot.starter
