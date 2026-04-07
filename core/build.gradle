@@ -5,8 +5,12 @@ bootJar { enabled = false }
 jar { enabled = true }
 
 dependencies {
+    implementation project(":user")
+
     implementation libs.spring.boot.starter.web
     implementation libs.spring.boot.starter.security
+
+    // Swagger
     implementation libs.spring.boot.starter.webmvc
     implementation libs.springdoc.openapi.ui
 }
