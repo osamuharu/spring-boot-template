@@ -14,22 +14,22 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 @RequiredArgsConstructor
 @EnableWebSecurity
-public class CoreSecurityConfiguration {
-    // STATELESS
-    // Turning off CSRF protection since we are not using cookies for session management
-    String[] PUBLIC_ENDPOINTS = {"/api/auth/**", "/api/public/**"};
-
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) {
-        http
-                .csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> auth
-                                                       .requestMatchers(PUBLIC_ENDPOINTS).permitAll()
-                                                       .anyRequest().authenticated()
-                );
-
-        return http.build();
-    }
-
+public class SecurityConfiguration {
+	String[] PUBLIC_ENDPOINTS = {"/api/auth/**", "/api/public/**"};
+	
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) {
+		http
+				.csrf(AbstractHttpConfigurer::disable)
+				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+				.authorizeHttpRequests(auth -> auth
+						.requestMatchers(PUBLIC_ENDPOINTS)
+						.permitAll()
+						.anyRequest()
+						.authenticated()
+				);
+		
+		return http.build();
+	}
+	
 }

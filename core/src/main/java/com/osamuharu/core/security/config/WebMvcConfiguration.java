@@ -8,16 +8,16 @@ import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class WebMvcConfig implements WebMvcConfigurer {
-    @Override
-    public void configurePathMatch(PathMatchConfigurer configurer) {
-        configurer.addPathPrefix("/api", HandlerTypePredicate.forAnnotation(RequestMapping.class));
-    }
-
-    @Override
-    public void configureApiVersioning(ApiVersionConfigurer configurer) {
-        configurer.usePathSegment(1)
-                .addSupportedVersions("v1")
-                .setDefaultVersion("v1");
-    }
+public class WebMvcConfiguration implements WebMvcConfigurer {
+	@Override
+	public void configurePathMatch(PathMatchConfigurer configurer) {
+		configurer.addPathPrefix("/api", HandlerTypePredicate.forAnnotation(RequestMapping.class));
+	}
+	
+	@Override
+	public void configureApiVersioning(ApiVersionConfigurer configurer) {
+		configurer.usePathSegment(1)
+		          .addSupportedVersions("v1")
+		          .setDefaultVersion("v1");
+	}
 }
