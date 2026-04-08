@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -14,8 +13,24 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
-@RestControllerAdvice(basePackages = "com.osamuharu")
+@RestControllerAdvice
 public class GlobalExceptionHandler {
+
+  @ExceptionHandler(Exception.class)
+  public ResponseEntity<ErrorResponse> handleUnwantedException(Exception ex) {
+    ErrorResponse errorResponse = ErrorResponse.builder()
+        .name("ServerError")
+        .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+        .message("Something went wrong")
+        .timestamp(System.currentTimeMillis())
+        .error("System error: " + ex.getMessage() + ex.getClass()
+            .getSimpleName())
+        .build();
+
+    return ResponseEntity
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .body(errorResponse);
+  }
 
   @ExceptionHandler(AppException.class)
   public ResponseEntity<ErrorResponse> handleAppException(AppException ex) {
@@ -76,25 +91,9 @@ public class GlobalExceptionHandler {
         .body(errorResponse);
   }
 
-  @ExceptionHandler(Exception.class)
-  public ResponseEntity<ErrorResponse> handleUnwantedException(Exception ex) {
-    ErrorResponse errorResponse = ErrorResponse.builder()
-        .name("ServerError")
-        .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
-        .message("Something went wrong")
-        .timestamp(System.currentTimeMillis())
-        .error("System error: " + ex.getMessage() + ex.getClass()
-            .getSimpleName())
-        .build();
-
-    return ResponseEntity
-        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .body(errorResponse);
-  }
-
   @ExceptionHandler(AuthenticationException.class)
   public ResponseEntity<ErrorResponse> handleInsufficientAuthenticationException(
-      InsufficientAuthenticationException ex) {
+      AuthenticationException ex) {
     ErrorResponse errorResponse = ErrorResponse.builder()
         .name("AuthenticationException")
         .status(HttpStatus.UNAUTHORIZED
@@ -112,10 +111,10 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(AuthorizationDeniedException.class)
   public ResponseEntity<ErrorResponse> handleAccessDeniedException(
-      InsufficientAuthenticationException ex) {
+      AuthorizationDeniedException ex) {
     ErrorResponse errorResponse = ErrorResponse.builder()
         .name("AuthorizationDeniedException")
-        .status(HttpStatus.UNAUTHORIZED
+        .status(HttpStatus.FORBIDDEN
             .value())
         .message("Access denied: " + ex.getMessage())
         .timestamp(System.currentTimeMillis())
@@ -123,7 +122,7 @@ public class GlobalExceptionHandler {
         .build();
 
     return ResponseEntity
-        .status(HttpStatus.UNAUTHORIZED
+        .status(HttpStatus.FORBIDDEN
             .value())
         .body(errorResponse);
   }
