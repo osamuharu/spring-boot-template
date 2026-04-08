@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @RequiredArgsConstructor
-public class UseCaseConfiguration {
+public class UserConfiguration {
 
   private final UserRepository userRepository;
   private final PasswordProvider passwordProvider;
