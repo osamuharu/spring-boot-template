@@ -10,8 +10,6 @@ import com.osamuharu.shared.entity.Subject;
 import com.osamuharu.shared.entity.Token;
 import com.osamuharu.shared.provider.TokenProvider;
 import com.osamuharu.user.domain.entity.User;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -35,12 +33,8 @@ public class AuthService {
         .username(user.getUsername())
         .build();
 
-    List<Token> tokens = new ArrayList<>();
-
     Token accessToken = tokenProvider.generateAccessToken(subject);
 
-    tokens.add(accessToken);
-
-    return mapper.toDto(user, tokens, "Bearer");
+    return mapper.toDto(user, accessToken, "Bearer");
   }
 }

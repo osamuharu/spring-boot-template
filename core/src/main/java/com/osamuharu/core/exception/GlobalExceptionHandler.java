@@ -23,10 +23,8 @@ public class GlobalExceptionHandler {
         .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
         .message("Something went wrong")
         .timestamp(System.currentTimeMillis())
-        .error("System error: " + ex.getMessage() + ex.getClass()
-            .getSimpleName())
+        .error("System error: " + ex.getMessage())
         .build();
-
     return ResponseEntity
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
         .body(errorResponse);

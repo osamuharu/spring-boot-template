@@ -5,7 +5,6 @@ import com.osamuharu.auth.presentation.dto.request.RegisterRequestDto;
 import com.osamuharu.auth.presentation.dto.response.LoginResponseDto;
 import com.osamuharu.shared.entity.Token;
 import com.osamuharu.user.domain.entity.User;
-import java.util.List;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -27,16 +26,16 @@ public class AuthMapperImpl implements AuthMapper {
   }
 
   @Override
-  public LoginResponseDto toDto(User user, List<Token> token, String type) {
+  public LoginResponseDto toDto(User user, Token acccessToken, String type) {
     if (user == null) {
       return null;
     }
 
     LoginResponseDto responseDto = new LoginResponseDto();
     responseDto.setUsername(user.getUsername());
-    responseDto.setTokens(token);
+    responseDto.setAccessToken(acccessToken);
     responseDto.setType(type);
-    
+
     return responseDto;
   }
 }
