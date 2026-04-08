@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -85,6 +87,24 @@ public class GlobalExceptionHandler {
 
     return ResponseEntity
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .body(errorResponse);
+  }
+
+  @ExceptionHandler(AuthenticationException.class)
+  public ResponseEntity<ErrorResponse> handleInsufficientAuthenticationException(
+      InsufficientAuthenticationException ex) {
+    ErrorResponse errorResponse = ErrorResponse.builder()
+        .name("AuthenticationException")
+        .status(HttpStatus.UNAUTHORIZED
+            .value())
+        .message(ex.getMessage())
+        .timestamp(System.currentTimeMillis())
+        .error(null)
+        .build();
+
+    return ResponseEntity
+        .status(HttpStatus.UNAUTHORIZED
+            .value())
         .body(errorResponse);
   }
 }
