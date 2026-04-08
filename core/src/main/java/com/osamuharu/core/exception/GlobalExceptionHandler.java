@@ -1,6 +1,7 @@
 package com.osamuharu.core.exception;
 
 import com.osamuharu.shared.exception.AppException;
+import io.jsonwebtoken.JwtException;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
@@ -95,6 +96,23 @@ public class GlobalExceptionHandler {
       InsufficientAuthenticationException ex) {
     ErrorResponse errorResponse = ErrorResponse.builder()
         .name("AuthenticationException")
+        .status(HttpStatus.UNAUTHORIZED
+            .value())
+        .message(ex.getMessage())
+        .timestamp(System.currentTimeMillis())
+        .error(null)
+        .build();
+
+    return ResponseEntity
+        .status(HttpStatus.UNAUTHORIZED
+            .value())
+        .body(errorResponse);
+  }
+
+  @ExceptionHandler(JwtException.class)
+  public ResponseEntity<ErrorResponse> handleJwtException(JwtException ex) {
+    ErrorResponse errorResponse = ErrorResponse.builder()
+        .name("JwtException")
         .status(HttpStatus.UNAUTHORIZED
             .value())
         .message(ex.getMessage())
