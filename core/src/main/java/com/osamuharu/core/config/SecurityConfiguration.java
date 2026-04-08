@@ -65,8 +65,6 @@ public class SecurityConfiguration {
         .toArray(String[]::new);
     http
         .csrf(AbstractHttpConfigurer::disable)
-        .sessionManagement(
-            session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(auth -> auth
             .requestMatchers(COMBINED_ENDPOINTS)
             .permitAll()
@@ -74,10 +72,12 @@ public class SecurityConfiguration {
             .authenticated()
         )
         .authenticationProvider(authenticationProvider())
+        .sessionManagement(
+            session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .exceptionHandling(
             exception -> exception.authenticationEntryPoint(authenticationEntryPoint))
-        .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-        .addFilterBefore(exceptionFilter, JwtFilter.class);
+        .addFilterBefore(exceptionFilter, UsernamePasswordAuthenticationFilter.class)
+        .addFilterAfter(jwtFilter, ExceptionFilter.class);
 
     return http.build();
   }
