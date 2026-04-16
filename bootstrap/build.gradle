@@ -12,6 +12,7 @@ dependencies {
     implementation libs.spring.boot.starter
     implementation libs.spring.boot.starter.web
     implementation libs.spring.boot.starter.liquibase
+    implementation libs.spring.boot.starter.actuator
     implementation libs.liquibase.core
 
     liquibaseRuntime libs.liquibase.core

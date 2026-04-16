@@ -16,3 +16,12 @@ spring:
     drop-first: true
 logging:
   config: classpath:log4j2-dev.yaml
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: health, info
