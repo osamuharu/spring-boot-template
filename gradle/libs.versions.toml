@@ -53,6 +53,9 @@ jjwt-api = { group = "io.jsonwebtoken", name = "jjwt-api", version.ref = "jwtApi
 jjwt-impl = { group = "io.jsonwebtoken", name = "jjwt-impl", version.ref = "jwtImpl" }
 jjwt-jackson = { group = "io.jsonwebtoken", name = "jjwt-jackson", version.ref = "jwtJackson" }
 
+# Redis
+spring-boot-starter-data-redis = { group = "org.springframework.boot", name = "spring-boot-starter-data-redis" }
+
 # Testing
 spring-boot-starter-test = { group = "org.springframework.boot", name = "spring-boot-starter-test" }
 

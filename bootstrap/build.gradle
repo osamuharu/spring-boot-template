@@ -24,6 +24,9 @@ def env = { String key -> project.findProperty(key)?.toString() ?: System.getenv
 final def dbUrl = env("db.mysql.url")
 final def dbUsername = env("db.mysql.username")
 final def dbPassword = env("db.mysql.password")
+final def redisHost = env("db.redis.host")
+final def redisPort = env("db.redis.port")
+final def redisPassword = env("db.redis.password")
 
 liquibase {
     activities {
@@ -40,9 +43,12 @@ liquibase {
 }
 
 tasks.named('bootRun') {
-    environment "DB_MYSQL_URL", env("db.mysql.url")
-    environment "DB_MYSQL_USERNAME", env("db.mysql.username")
-    environment "DB_MYSQL_PASSWORD", env("db.mysql.password")
+    environment "DB_MYSQL_URL", dbUrl
+    environment "DB_MYSQL_USERNAME", dbUsername
+    environment "DB_MYSQL_PASSWORD", dbPassword
+    environment "REDIS_HOST", redisHost
+    environment "REDIS_PORT", redisPort
+    environment "REDIS_PASSWORD", redisPassword
 }
 
 tasks.named('test') {
@@ -52,6 +58,9 @@ tasks.named('test') {
     environment "DB_MYSQL_URL", dbUrl
     environment "DB_MYSQL_USERNAME", dbUsername
     environment "DB_MYSQL_PASSWORD", dbPassword
+    environment "REDIS_HOST", redisHost
+    environment "REDIS_PORT", redisPort
+    environment "REDIS_PASSWORD", redisPassword
 }
 
 tasks.register('runDev') {
