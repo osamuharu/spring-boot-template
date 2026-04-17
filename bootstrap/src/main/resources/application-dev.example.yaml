@@ -14,20 +14,6 @@ spring:
     change-log: classpath:db/changelog/db.changelog-master.yaml
     contexts: dev
     drop-first: true
-  redis:
-    host: ${REDIS_HOST}
-    port: ${REDIS_PORT}
-    password: ${REDIS_PASSWORD}
-    username:
-    timeout: 1000ms
-
-    lettuce:
-      pool:
-        max-active: 4
-        max-idle: 2
-        min-idle: 0
-        max-wait: 500ms
-        time-between-eviction-runs: 10s
 
 logging:
   config: classpath:log4j2-dev.yaml

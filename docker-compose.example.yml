@@ -23,6 +23,7 @@ services:
     volumes:
       - redis_data:/data                  # Persist Redis data
     command: redis-server --requirepass "your-password" --appendonly yes
+    
 volumes:
   mysql_data:
   redis_data:

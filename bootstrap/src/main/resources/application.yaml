@@ -3,3 +3,5 @@ spring:
     name: spring-boot-template
   profiles:
     active: dev
+    include:
+      - dev-core

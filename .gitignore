@@ -38,14 +38,15 @@ out/
 
 ### Docker ###
 docker-compose.*.yml
-!docker-compose.example.yml
 
 ### Spring Boot ###
-*application-dev.yaml
+*application-dev*.yaml
 
 ### Local environment ###
 gradle.properties
-core-dev.properties
 
 ### Log files ###
 logs/
+
+### Examples ###
+!*.example.*

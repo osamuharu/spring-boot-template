@@ -8,6 +8,7 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import java.time.Instant;
 import java.util.Date;
 import javax.crypto.SecretKey;
 import lombok.RequiredArgsConstructor;
@@ -27,18 +28,19 @@ public class JwtProvider implements TokenProvider {
 
   @Override
   public Token generateAccessToken(Subject subject) {
-    Date expiresIn = new Date(System.currentTimeMillis() + jwtProperties.getAccessTokenExpire());
+    Instant expiresIn = Instant.now().plus(jwtProperties.getAccessTokenExpire());
+
     String accessToken = Jwts.builder()
         .subject(subject.getUsername())
-        .issuedAt(new Date())
-        .expiration(expiresIn)
+        .issuedAt(Date.from(Instant.now()))
+        .expiration(Date.from(expiresIn))
         .signWith(secretKey())
         .compact();
 
     return Token.
         builder()
         .token(accessToken)
-        .expiresIn(expiresIn.getTime())
+        .expiresIn(expiresIn.getEpochSecond())
         .build();
   }
 
