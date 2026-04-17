@@ -1,5 +1,6 @@
 package com.osamuharu.core.jwt;
 
+import com.osamuharu.core.properties.JwtProperties;
 import com.osamuharu.shared.entity.Subject;
 import com.osamuharu.shared.entity.Token;
 import com.osamuharu.shared.provider.TokenProvider;

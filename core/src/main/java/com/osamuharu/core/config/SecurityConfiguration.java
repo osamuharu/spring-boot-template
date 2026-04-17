@@ -2,8 +2,8 @@ package com.osamuharu.core.config;
 
 import com.osamuharu.core.filter.ExceptionFilter;
 import com.osamuharu.core.filter.JwtFilter;
-import java.util.Arrays;
-import java.util.stream.Stream;
+import com.osamuharu.core.properties.SecurityProperties;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,20 +29,23 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfiguration {
 
-  private final String[] PUBLIC_ENDPOINTS = {"/api/{version}/auth/**", "/api/{version}/public/**",
-      "/actuator/health", "/actuator/info"};
-  private final String[] SWAGGER_ENDPOINTS = {"/v3/api-docs", "/v3/api-docs/**", "/swagger-ui/**",
-      "/swagger-ui.html"};
-
+  private final SecurityProperties properties;
   private final UserDetailsService userDetailsService;
   private final AuthenticationEntryPoint authenticationEntryPoint;
   private final ExceptionFilter exceptionFilter;
   private final JwtFilter jwtFilter;
 
+  private String[] publicUrls;
+  private static final int BCRYPT_STRENGTH = 12;
+
+  @PostConstruct
+  public void init() {
+    this.publicUrls = properties.getPublicUrls().toArray(String[]::new);
+  }
+
   @Bean
   public PasswordEncoder passwordEncoder() {
-    int strength = 12;
-    return new BCryptPasswordEncoder(strength);
+    return new BCryptPasswordEncoder(BCRYPT_STRENGTH);
   }
 
   @Bean
@@ -59,14 +62,11 @@ public class SecurityConfiguration {
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) {
-    final String[] COMBINED_ENDPOINTS = Stream.concat(
-            Arrays.stream(PUBLIC_ENDPOINTS),
-            Arrays.stream(SWAGGER_ENDPOINTS))
-        .toArray(String[]::new);
+
     http
         .csrf(AbstractHttpConfigurer::disable)
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers(COMBINED_ENDPOINTS)
+            .requestMatchers(publicUrls)
             .permitAll()
             .anyRequest()
             .authenticated()
