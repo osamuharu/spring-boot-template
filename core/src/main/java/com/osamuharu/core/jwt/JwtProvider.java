@@ -1,11 +1,11 @@
 package com.osamuharu.core.jwt;
 
 import com.osamuharu.core.properties.JwtProperties;
-import com.osamuharu.shared.entity.Subject;
+import com.osamuharu.shared.entity.Payload;
 import com.osamuharu.shared.entity.Token;
 import com.osamuharu.shared.provider.TokenProvider;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -28,11 +28,11 @@ public class JwtProvider implements TokenProvider {
   }
 
   @Override
-  public Token generateAccessToken(Subject subject) {
+  public Token generateAccessToken(Payload payload) {
     Instant expiresIn = Instant.now().plus(jwtProperties.getAccessTokenExpire());
 
     String accessToken = Jwts.builder()
-        .subject(subject.getUsername())
+        .subject(payload.getUsername())
         .issuedAt(Date.from(Instant.now()))
         .expiration(Date.from(expiresIn))
         .signWith(secretKey())
@@ -45,26 +45,44 @@ public class JwtProvider implements TokenProvider {
         .build();
   }
 
-  @Override
-  public String extractUsername(String token) {
-    Jws<Claims> parsedToken = Jwts.parser()
+  public Claims extractClaims(String token) {
+    if (isTokenInvalid(token)) {
+      throw new JwtException("Invalid JWT token");
+    }
+
+    return Jwts.parser()
         .verifyWith(secretKey())
-        .build()
-        .parseSignedClaims(token);
-    return parsedToken.getPayload()
-        .getSubject();
+        .build().parseSignedClaims(token)
+        .getPayload();
   }
 
   @Override
-  public boolean validateToken(String token) {
+  public Payload extractPayload(String token) {
+    if (isTokenInvalid(token)) {
+      throw new JwtException("Invalid JWT token");
+    }
+
+    Claims claims = Jwts.parser()
+        .verifyWith(secretKey())
+        .build().parseSignedClaims(token)
+        .getPayload();
+
+    return Payload.builder()
+        .username(claims.getSubject())
+        .build();
+  }
+
+
+  @Override
+  public boolean isTokenInvalid(String token) {
     try {
       Jwts.parser()
           .verifyWith(secretKey())
           .build()
           .parseSignedClaims(token);
-      return true;
-    } catch (Exception e) {
       return false;
+    } catch (Exception e) {
+      return true;
     }
   }
 }

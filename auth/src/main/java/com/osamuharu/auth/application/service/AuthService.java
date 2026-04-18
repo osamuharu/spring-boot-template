@@ -6,7 +6,7 @@ import com.osamuharu.auth.application.usecase.RegisterUseCase;
 import com.osamuharu.auth.presentation.dto.request.LoginRequestDto;
 import com.osamuharu.auth.presentation.dto.request.RegisterRequestDto;
 import com.osamuharu.auth.presentation.dto.response.LoginResponseDto;
-import com.osamuharu.shared.entity.Subject;
+import com.osamuharu.shared.entity.Payload;
 import com.osamuharu.shared.entity.Token;
 import com.osamuharu.shared.provider.TokenProvider;
 import com.osamuharu.user.domain.entity.User;
@@ -29,11 +29,11 @@ public class AuthService {
   public LoginResponseDto login(LoginRequestDto dto) {
     User user = loginUseCase.execute(dto);
 
-    Subject subject = Subject.builder()
+    Payload payload = Payload.builder()
         .username(user.getUsername())
         .build();
 
-    Token accessToken = tokenProvider.generateAccessToken(subject);
+    Token accessToken = tokenProvider.generateAccessToken(payload);
 
     return mapper.toDto(user, accessToken, "Bearer");
   }

@@ -1,7 +1,7 @@
 package com.osamuharu.core.filter;
 
+import com.osamuharu.core.jwt.JwtProvider;
 import com.osamuharu.core.properties.SecurityProperties;
-import com.osamuharu.shared.provider.TokenProvider;
 import io.jsonwebtoken.JwtException;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.FilterChain;
@@ -31,7 +31,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
   private final SecurityProperties securityProperties;
   private final UserDetailsService userDetailsService;
-  private final TokenProvider tokenProvider;
+  private final JwtProvider jwtProvider;
   private final PathPatternParser pathPatternParser;
   private List<PathPattern> publicPatterns;
 
@@ -69,11 +69,7 @@ public class JwtFilter extends OncePerRequestFilter {
     String token = parseJwt(request);
 
     if (token != null) {
-      if (!tokenProvider.validateToken(token)) {
-        throw new JwtException("Invalid JWT token");
-      }
-
-      String username = tokenProvider.extractUsername(token);
+      String username = jwtProvider.extractPayload(token).getUsername();
 
       UserDetails userDetails = userDetailsService.loadUserByUsername(username);
       UsernamePasswordAuthenticationToken authentication =

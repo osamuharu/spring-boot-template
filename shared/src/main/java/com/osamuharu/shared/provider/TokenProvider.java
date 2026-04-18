@@ -1,13 +1,13 @@
 package com.osamuharu.shared.provider;
 
-import com.osamuharu.shared.entity.Subject;
+import com.osamuharu.shared.entity.Payload;
 import com.osamuharu.shared.entity.Token;
 
 public interface TokenProvider {
 
-  Token generateAccessToken(Subject subject);
+  Token generateAccessToken(Payload payload);
 
-  String extractUsername(String token);
+  Payload extractPayload(String token);
 
-  boolean validateToken(String token);
+  boolean isTokenInvalid(String token);
 }

@@ -7,6 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class Subject {
-	private String username;
+public class Payload {
+
+  private String username;
 }
