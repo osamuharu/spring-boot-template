@@ -28,7 +28,7 @@ final def redisHost = env("db.redis.host")
 final def redisPort = env("db.redis.port")
 final def redisPassword = env("db.redis.password")
 final def jwtSecret = env("security.jwt.secret")
-final def jwtAccessTokenExpire = env("security.jwt.access.token.expire")
+final def jwtAccessTokenExpiration = env("security.jwt.access.token.expiration")
 
 liquibase {
     activities {
@@ -52,7 +52,7 @@ tasks.named('bootRun') {
     environment "REDIS_PORT", redisPort
     environment "REDIS_PASSWORD", redisPassword
     environment "JWT_SECRET", jwtSecret
-    environment "JWT_ACCESS_TOKEN_EXPIRE", jwtAccessTokenExpire
+    environment "JWT_ACCESS_TOKEN_EXPIRATION", jwtAccessTokenExpiration
 }
 
 tasks.named('test') {
@@ -66,7 +66,7 @@ tasks.named('test') {
     environment "REDIS_PORT", redisPort
     environment "REDIS_PASSWORD", redisPassword
     environment "JWT_SECRET", jwtSecret
-    environment "JWT_ACCESS_TOKEN_EXPIRE", jwtAccessTokenExpire
+    environment "JWT_ACCESS_TOKEN_EXPIRATION", jwtAccessTokenExpiration
 }
 
 tasks.register('runDev') {

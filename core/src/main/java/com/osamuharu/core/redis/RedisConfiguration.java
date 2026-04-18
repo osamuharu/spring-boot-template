@@ -1,4 +1,4 @@
-package com.osamuharu.core.config;
+package com.osamuharu.core.redis;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

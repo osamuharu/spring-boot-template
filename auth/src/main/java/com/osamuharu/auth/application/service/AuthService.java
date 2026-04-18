@@ -2,6 +2,7 @@ package com.osamuharu.auth.application.service;
 
 import com.osamuharu.auth.application.mapper.AuthMapper;
 import com.osamuharu.auth.application.usecase.LoginUseCase;
+import com.osamuharu.auth.application.usecase.LogoutUseCase;
 import com.osamuharu.auth.application.usecase.RegisterUseCase;
 import com.osamuharu.auth.presentation.dto.request.LoginRequestDto;
 import com.osamuharu.auth.presentation.dto.request.RegisterRequestDto;
@@ -19,6 +20,7 @@ public class AuthService {
 
   private final RegisterUseCase registerUseCase;
   private final LoginUseCase loginUseCase;
+  private final LogoutUseCase logoutUseCase;
   private final AuthMapper mapper;
   private final TokenProvider tokenProvider;
 
@@ -36,5 +38,9 @@ public class AuthService {
     Token accessToken = tokenProvider.generateAccessToken(payload);
 
     return mapper.toDto(user, accessToken, "Bearer");
+  }
+
+  public void logout(String token) throws IllegalAccessException {
+    logoutUseCase.execute(token);
   }
 }

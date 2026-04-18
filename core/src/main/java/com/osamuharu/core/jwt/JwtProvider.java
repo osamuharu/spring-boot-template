@@ -1,6 +1,5 @@
 package com.osamuharu.core.jwt;
 
-import com.osamuharu.core.properties.JwtProperties;
 import com.osamuharu.shared.entity.Payload;
 import com.osamuharu.shared.entity.Token;
 import com.osamuharu.shared.provider.TokenProvider;
@@ -11,6 +10,7 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import java.time.Instant;
 import java.util.Date;
+import java.util.UUID;
 import javax.crypto.SecretKey;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -30,8 +30,10 @@ public class JwtProvider implements TokenProvider {
   @Override
   public Token generateAccessToken(Payload payload) {
     Instant expiresIn = Instant.now().plus(jwtProperties.getAccessTokenExpire());
+    String jwtId = UUID.randomUUID().toString();
 
     String accessToken = Jwts.builder()
+        .id(jwtId)
         .subject(payload.getUsername())
         .issuedAt(Date.from(Instant.now()))
         .expiration(Date.from(expiresIn))
@@ -70,6 +72,20 @@ public class JwtProvider implements TokenProvider {
     return Payload.builder()
         .username(claims.getSubject())
         .build();
+  }
+
+  @Override
+  public String extractIdToken(String token) {
+    Claims claims = extractClaims(token);
+
+    return claims.getId();
+  }
+
+  @Override
+  public Instant extractExpiration(String token) {
+    Claims claims = extractClaims(token);
+
+    return claims.getExpiration().toInstant();
   }
 
 

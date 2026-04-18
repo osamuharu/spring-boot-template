@@ -1,7 +1,8 @@
-package com.osamuharu.core.filter;
+package com.osamuharu.core.jwt;
 
-import com.osamuharu.core.jwt.JwtProvider;
 import com.osamuharu.core.properties.SecurityProperties;
+import com.osamuharu.shared.provider.MemoryProvider;
+import com.osamuharu.shared.utils.TokenUtils;
 import io.jsonwebtoken.JwtException;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.FilterChain;
@@ -20,7 +21,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.pattern.PathPattern;
 import org.springframework.web.util.pattern.PathPatternParser;
@@ -33,6 +33,7 @@ public class JwtFilter extends OncePerRequestFilter {
   private final UserDetailsService userDetailsService;
   private final JwtProvider jwtProvider;
   private final PathPatternParser pathPatternParser;
+  private final MemoryProvider memoryProvider;
   private List<PathPattern> publicPatterns;
 
   @PostConstruct
@@ -54,10 +55,7 @@ public class JwtFilter extends OncePerRequestFilter {
   private String parseJwt(HttpServletRequest request) {
     String headerAuth = request.getHeader("Authorization");
 
-    if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
-      return headerAuth.substring(7);
-    }
-    return null;
+    return TokenUtils.extractTokenFromHeader(headerAuth);
   }
 
   @Override
@@ -69,6 +67,12 @@ public class JwtFilter extends OncePerRequestFilter {
     String token = parseJwt(request);
 
     if (token != null) {
+      String idToken = jwtProvider.extractIdToken(token);
+
+      if (idToken != null && memoryProvider.isTokenInBlackList(idToken)) {
+        throw new JwtException("Token is revoked");
+      }
+
       String username = jwtProvider.extractPayload(token).getUsername();
 
       UserDetails userDetails = userDetailsService.loadUserByUsername(username);

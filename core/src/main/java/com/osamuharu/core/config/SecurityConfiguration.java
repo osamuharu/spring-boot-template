@@ -1,7 +1,7 @@
 package com.osamuharu.core.config;
 
 import com.osamuharu.core.filter.ExceptionFilter;
-import com.osamuharu.core.filter.JwtFilter;
+import com.osamuharu.core.jwt.JwtFilter;
 import com.osamuharu.core.properties.SecurityProperties;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
