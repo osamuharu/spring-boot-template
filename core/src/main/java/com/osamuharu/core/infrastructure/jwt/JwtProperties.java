@@ -26,5 +26,5 @@ public class JwtProperties {
 
   @NotNull(message = "Access token expiration time must not be null")
   @DurationFormat(DurationStyle.SIMPLE)
-  private Duration accessTokenExpire;
+  private Duration accessTokenExpiration;
 }

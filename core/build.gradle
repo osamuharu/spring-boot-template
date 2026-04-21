@@ -8,6 +8,8 @@ dependencies {
     implementation project(":shared")
 
     implementation libs.spring.boot.starter.security
+    implementation libs.spring.boot.starter.mail
+    implementation libs.string.boot.starter.thymeleaf
 
     // Swagger
     implementation libs.spring.boot.starter.webmvc
@@ -17,4 +19,5 @@ dependencies {
     implementation libs.jjwt.api
     implementation libs.jjwt.impl
     implementation libs.jjwt.jackson
+
 }
