@@ -30,7 +30,7 @@ public class JwtAdapter implements TokenPost {
 
   @Override
   public TokenDto generateAccessToken(PayloadDto payloadDto) {
-    Instant expiresIn = Instant.now().plus(jwtProperties.getAccessTokenExpire());
+    Instant expiresIn = Instant.now().plus(jwtProperties.getAccessTokenExpiration());
     String jwtId = UUID.randomUUID().toString();
 
     String accessToken = Jwts.builder()
