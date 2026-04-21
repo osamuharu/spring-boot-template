@@ -1,13 +1,13 @@
-package com.osamuharu.core.hash;
+package com.osamuharu.core.infrastructure.pesistence.adapter;
 
-import com.osamuharu.shared.provider.PasswordProvider;
+import com.osamuharu.shared.port.PasswordPost;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class HashPasswordProvider implements PasswordProvider {
+public class EncoderAdapter implements PasswordPost {
 
   private final PasswordEncoder encoder;
 

@@ -1,4 +1,4 @@
-package com.osamuharu.user.infrastructure.persistence.adaptor;
+package com.osamuharu.user.infrastructure.persistence.adapter;
 
 import com.osamuharu.user.application.mapper.UserMapper;
 import com.osamuharu.user.domain.entity.User;

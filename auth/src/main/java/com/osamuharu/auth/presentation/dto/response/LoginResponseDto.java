@@ -1,6 +1,6 @@
 package com.osamuharu.auth.presentation.dto.response;
 
-import com.osamuharu.shared.entity.Token;
+import com.osamuharu.shared.dto.TokenDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +9,6 @@ import lombok.Setter;
 public class LoginResponseDto {
 
   String username;
-  Token accessToken;
+  TokenDto accessTokenDto;
   String type = "Bearer";
 }

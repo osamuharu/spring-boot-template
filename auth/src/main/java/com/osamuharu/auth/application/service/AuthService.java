@@ -7,9 +7,9 @@ import com.osamuharu.auth.application.usecase.RegisterUseCase;
 import com.osamuharu.auth.presentation.dto.request.LoginRequestDto;
 import com.osamuharu.auth.presentation.dto.request.RegisterRequestDto;
 import com.osamuharu.auth.presentation.dto.response.LoginResponseDto;
-import com.osamuharu.shared.entity.Payload;
-import com.osamuharu.shared.entity.Token;
-import com.osamuharu.shared.provider.TokenProvider;
+import com.osamuharu.shared.dto.PayloadDto;
+import com.osamuharu.shared.dto.TokenDto;
+import com.osamuharu.shared.port.TokenPost;
 import com.osamuharu.user.domain.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ public class AuthService {
   private final LoginUseCase loginUseCase;
   private final LogoutUseCase logoutUseCase;
   private final AuthMapper mapper;
-  private final TokenProvider tokenProvider;
+  private final TokenPost tokenPost;
 
   public void register(RegisterRequestDto dto) {
     registerUseCase.execute(mapper.toDomain(dto));
@@ -31,13 +31,13 @@ public class AuthService {
   public LoginResponseDto login(LoginRequestDto dto) {
     User user = loginUseCase.execute(dto);
 
-    Payload payload = Payload.builder()
+    PayloadDto payloadDto = PayloadDto.builder()
         .username(user.getUsername())
         .build();
 
-    Token accessToken = tokenProvider.generateAccessToken(payload);
+    TokenDto accessTokenDto = tokenPost.generateAccessToken(payloadDto);
 
-    return mapper.toDto(user, accessToken, "Bearer");
+    return mapper.toDto(user, accessTokenDto, "Bearer");
   }
 
   public void logout(String token) throws IllegalAccessException {

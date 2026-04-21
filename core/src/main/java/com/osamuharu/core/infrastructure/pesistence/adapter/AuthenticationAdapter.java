@@ -1,4 +1,4 @@
-package com.osamuharu.core.handler;
+package com.osamuharu.core.infrastructure.pesistence.adapter;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -8,7 +8,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
+public class AuthenticationAdapter implements AuthenticationEntryPoint {
 
   @Override
   public void commence(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,

@@ -1,8 +1,7 @@
-package com.osamuharu.core.config;
+package com.osamuharu.core.security;
 
 import com.osamuharu.core.filter.ExceptionFilter;
-import com.osamuharu.core.jwt.JwtFilter;
-import com.osamuharu.core.properties.SecurityProperties;
+import com.osamuharu.core.filter.JwtFilter;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

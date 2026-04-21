@@ -6,9 +6,7 @@ jar { enabled = true }
 
 dependencies {
     implementation project(":shared")
-    implementation project(":user")
 
-    implementation libs.spring.boot.starter.web
     implementation libs.spring.boot.starter.security
 
     // Swagger

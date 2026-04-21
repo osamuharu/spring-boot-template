@@ -1,6 +1,7 @@
-package com.osamuharu.core.redis;
+package com.osamuharu.core.infrastructure.pesistence.adapter;
 
-import com.osamuharu.shared.provider.MemoryProvider;
+import com.osamuharu.core.infrastructure.redis.RedisBlacklistProperties;
+import com.osamuharu.shared.port.MemoryPost;
 import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -8,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class RedisProvider implements MemoryProvider {
+public class RedisAdapter implements MemoryPost {
 
   private final RedisBlacklistProperties blacklistProperties;
   private final StringRedisTemplate stringRedisTemplate;
@@ -28,7 +29,7 @@ public class RedisProvider implements MemoryProvider {
   public boolean isTokenInBlackList(String idToken) {
     String prefix = blacklistProperties.getTokenPrefix();
     String redisKey = prefix + idToken;
-    
+
     return Boolean.TRUE.equals(stringRedisTemplate.hasKey(redisKey));
   }
 }

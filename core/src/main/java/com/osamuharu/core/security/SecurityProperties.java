@@ -1,4 +1,4 @@
-package com.osamuharu.core.properties;
+package com.osamuharu.core.security;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;

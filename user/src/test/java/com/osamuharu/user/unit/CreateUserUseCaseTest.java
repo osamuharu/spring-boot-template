@@ -10,7 +10,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
-import com.osamuharu.shared.provider.PasswordProvider;
+import com.osamuharu.shared.port.PasswordPost;
 import com.osamuharu.user.application.exception.EmailExistsException;
 import com.osamuharu.user.application.exception.UserCannotNullException;
 import com.osamuharu.user.application.exception.UserNameExistsException;
@@ -32,7 +32,7 @@ public class CreateUserUseCaseTest {
   private UserRepository repository;
 
   @Mock
-  private PasswordProvider passwordProvider;
+  private PasswordPost passwordPost;
 
   static private User user;
 
@@ -55,7 +55,7 @@ public class CreateUserUseCaseTest {
   public void execute_WhenValidUser_ShouldSaveAndReturnUser() {
     when(repository.existsByEmail(user.getEmail())).thenReturn(false);
     when(repository.existsByUsername(user.getUsername())).thenReturn(false);
-    when(passwordProvider.hashPassword(any(String.class))).thenReturn("hashedPassword");
+    when(passwordPost.hashPassword(any(String.class))).thenReturn("hashedPassword");
 
     user.setPassword("hashedPassword");
     when(repository.save(user)).thenReturn(user);
@@ -67,7 +67,7 @@ public class CreateUserUseCaseTest {
 
     verify(repository, times(1)).existsByEmail(user.getEmail());
     verify(repository, times(1)).existsByUsername(user.getUsername());
-    verify(passwordProvider, times(1)).hashPassword(user.getPassword());
+    verify(passwordPost, times(1)).hashPassword(user.getPassword());
     verify(repository, times(1)).save(user);
   }
 

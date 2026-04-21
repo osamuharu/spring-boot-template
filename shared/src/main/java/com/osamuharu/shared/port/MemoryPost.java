@@ -1,6 +1,6 @@
-package com.osamuharu.shared.provider;
+package com.osamuharu.shared.port;
 
-public interface MemoryProvider {
+public interface MemoryPost {
 
   void saveTokenInBlacklist(String idToken, long expiresIn);
 

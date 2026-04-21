@@ -1,6 +1,6 @@
-package com.osamuharu.shared.provider;
+package com.osamuharu.shared.port;
 
-public interface PasswordProvider {
+public interface PasswordPost {
 
   String hashPassword(String password);
 

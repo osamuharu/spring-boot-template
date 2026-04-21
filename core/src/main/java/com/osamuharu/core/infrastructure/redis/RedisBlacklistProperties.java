@@ -1,4 +1,4 @@
-package com.osamuharu.core.redis;
+package com.osamuharu.core.infrastructure.redis;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

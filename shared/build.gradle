@@ -6,10 +6,10 @@ bootJar { enabled = false }
 jar { enabled = true }
 
 dependencies {
-    implementation libs.spring.boot.starter.web
+    api libs.spring.boot.starter.web
     api libs.spring.boot.starter.data.jpa
     runtimeOnly libs.mysql.connector
-    
+
     // Redis
     api libs.spring.boot.starter.data.redis
 }

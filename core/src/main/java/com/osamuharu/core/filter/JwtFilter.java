@@ -1,7 +1,8 @@
-package com.osamuharu.core.jwt;
+package com.osamuharu.core.filter;
 
-import com.osamuharu.core.properties.SecurityProperties;
-import com.osamuharu.shared.provider.MemoryProvider;
+import com.osamuharu.core.infrastructure.pesistence.adapter.JwtAdapter;
+import com.osamuharu.core.security.SecurityProperties;
+import com.osamuharu.shared.port.MemoryPost;
 import com.osamuharu.shared.utils.TokenUtils;
 import io.jsonwebtoken.JwtException;
 import jakarta.annotation.PostConstruct;
@@ -31,9 +32,9 @@ public class JwtFilter extends OncePerRequestFilter {
 
   private final SecurityProperties securityProperties;
   private final UserDetailsService userDetailsService;
-  private final JwtProvider jwtProvider;
+  private final JwtAdapter jwtAdapter;
   private final PathPatternParser pathPatternParser;
-  private final MemoryProvider memoryProvider;
+  private final MemoryPost memoryPost;
   private List<PathPattern> publicPatterns;
 
   @PostConstruct
@@ -67,13 +68,13 @@ public class JwtFilter extends OncePerRequestFilter {
     String token = parseJwt(request);
 
     if (token != null) {
-      String idToken = jwtProvider.extractIdToken(token);
+      String idToken = jwtAdapter.extractIdToken(token);
 
-      if (idToken != null && memoryProvider.isTokenInBlackList(idToken)) {
+      if (idToken != null && memoryPost.isTokenInBlackList(idToken)) {
         throw new JwtException("Token is revoked");
       }
 
-      String username = jwtProvider.extractPayload(token).getUsername();
+      String username = jwtAdapter.extractPayload(token).getUsername();
 
       UserDetails userDetails = userDetailsService.loadUserByUsername(username);
       UsernamePasswordAuthenticationToken authentication =

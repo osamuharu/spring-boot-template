@@ -1,8 +1,9 @@
-package com.osamuharu.core.jwt;
+package com.osamuharu.core.infrastructure.pesistence.adapter;
 
-import com.osamuharu.shared.entity.Payload;
-import com.osamuharu.shared.entity.Token;
-import com.osamuharu.shared.provider.TokenProvider;
+import com.osamuharu.core.infrastructure.jwt.JwtProperties;
+import com.osamuharu.shared.dto.PayloadDto;
+import com.osamuharu.shared.dto.TokenDto;
+import com.osamuharu.shared.port.TokenPost;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -19,7 +20,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @EnableConfigurationProperties(JwtProperties.class)
-public class JwtProvider implements TokenProvider {
+public class JwtAdapter implements TokenPost {
 
   private final JwtProperties jwtProperties;
 
@@ -28,19 +29,19 @@ public class JwtProvider implements TokenProvider {
   }
 
   @Override
-  public Token generateAccessToken(Payload payload) {
+  public TokenDto generateAccessToken(PayloadDto payloadDto) {
     Instant expiresIn = Instant.now().plus(jwtProperties.getAccessTokenExpire());
     String jwtId = UUID.randomUUID().toString();
 
     String accessToken = Jwts.builder()
         .id(jwtId)
-        .subject(payload.getUsername())
+        .subject(payloadDto.getUsername())
         .issuedAt(Date.from(Instant.now()))
         .expiration(Date.from(expiresIn))
         .signWith(secretKey())
         .compact();
 
-    return Token.
+    return TokenDto.
         builder()
         .token(accessToken)
         .expiresIn(expiresIn.getEpochSecond())
@@ -59,7 +60,7 @@ public class JwtProvider implements TokenProvider {
   }
 
   @Override
-  public Payload extractPayload(String token) {
+  public PayloadDto extractPayload(String token) {
     if (isTokenInvalid(token)) {
       throw new JwtException("Invalid JWT token");
     }
@@ -69,7 +70,7 @@ public class JwtProvider implements TokenProvider {
         .build().parseSignedClaims(token)
         .getPayload();
 
-    return Payload.builder()
+    return PayloadDto.builder()
         .username(claims.getSubject())
         .build();
   }

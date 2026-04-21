@@ -1,7 +1,7 @@
 package com.osamuharu.auth.application.usecase;
 
-import com.osamuharu.shared.provider.MemoryProvider;
-import com.osamuharu.shared.provider.TokenProvider;
+import com.osamuharu.shared.port.MemoryPost;
+import com.osamuharu.shared.port.TokenPost;
 import java.time.Duration;
 import java.time.Instant;
 import lombok.RequiredArgsConstructor;
@@ -9,18 +9,18 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class LogoutUseCase {
 
-  private final TokenProvider tokenProvider;
-  private final MemoryProvider memoryProvider;
+  private final TokenPost tokenPost;
+  private final MemoryPost memoryPost;
 
   public void execute(String token) throws IllegalAccessException {
-    String idToken = tokenProvider.extractIdToken(token);
+    String idToken = tokenPost.extractIdToken(token);
 
     if (idToken == null) {
       throw new IllegalAccessException("Invalid token");
     }
 
     Instant now = Instant.now();
-    Instant expiration = tokenProvider.extractExpiration(token);
+    Instant expiration = tokenPost.extractExpiration(token);
 
     long expiresIn = Duration.between(now, expiration).getSeconds();
 
@@ -28,6 +28,6 @@ public class LogoutUseCase {
       return;
     }
 
-    memoryProvider.saveTokenInBlacklist(idToken, expiresIn);
+    memoryPost.saveTokenInBlacklist(idToken, expiresIn);
   }
 }

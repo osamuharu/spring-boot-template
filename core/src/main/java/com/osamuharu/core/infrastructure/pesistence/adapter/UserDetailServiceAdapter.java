@@ -1,6 +1,7 @@
-package com.osamuharu.core.handler;
+package com.osamuharu.core.infrastructure.pesistence.adapter;
 
-import com.osamuharu.user.domain.repository.UserRepository;
+import com.osamuharu.shared.dto.UserSecurityDto;
+import com.osamuharu.shared.port.UserSecurityPort;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.NonNull;
@@ -14,26 +15,22 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class CustomUserDetailService implements UserDetailsService {
+public class UserDetailServiceAdapter implements UserDetailsService {
 
-  private final UserRepository repository;
+  private final UserSecurityPort userSecurityPort;
 
   @Override
   @NonNull
   public UserDetails loadUserByUsername(@NonNull String username) throws UsernameNotFoundException {
 
-    com.osamuharu.user.domain.entity.User user = repository.findByUsername(username)
-        .orElse(null);
-
-    if (user == null) {
-      throw new UsernameNotFoundException("User not found with username: " + username);
-    }
+    UserSecurityDto userDto = userSecurityPort.loadUserByUsername(username)
+        .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
 
     Set<GrantedAuthority> authorities = new HashSet<>();
 
     return new User(
-        user.getUsername(),
-        user.getPassword(),
+        userDto.getUsername(),
+        userDto.getPassword(),
         authorities
     );
   }

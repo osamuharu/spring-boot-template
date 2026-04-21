@@ -1,6 +1,6 @@
 package com.osamuharu.user.application.usecase;
 
-import com.osamuharu.shared.provider.PasswordProvider;
+import com.osamuharu.shared.port.PasswordPost;
 import com.osamuharu.user.domain.entity.User;
 import com.osamuharu.user.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 public class UpdateUserUseCase {
 
   private final UserRepository repository;
-  private final PasswordProvider passwordProvider;
+  private final PasswordPost passwordPost;
 
   public User execute(Long id, User user) {
     if (user == null) {
@@ -44,13 +44,13 @@ public class UpdateUserUseCase {
 
     if (user.getPassword() != null) {
 
-      if (passwordProvider.verifyPassword(user.getPassword(), existsUser.getPassword())) {
+      if (passwordPost.verifyPassword(user.getPassword(), existsUser.getPassword())) {
         throw new IllegalArgumentException("New password cannot be the same as the old password");
       }
 
       existsUser.changePassword(user.getPassword());
 
-      String hashedPassword = passwordProvider.hashPassword(existsUser.getPassword());
+      String hashedPassword = passwordPost.hashPassword(existsUser.getPassword());
       existsUser.setPassword(hashedPassword);
     }
 
