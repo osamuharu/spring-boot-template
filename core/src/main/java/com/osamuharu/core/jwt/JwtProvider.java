@@ -29,7 +29,7 @@ public class JwtProvider implements TokenProvider {
 
   @Override
   public Token generateAccessToken(Payload payload) {
-    Instant expiresIn = Instant.now().plus(jwtProperties.getAccessTokenExpire());
+    Instant expiresIn = Instant.now().plus(jwtProperties.getAccessTokenExpiration());
     String jwtId = UUID.randomUUID().toString();
 
     String accessToken = Jwts.builder()
