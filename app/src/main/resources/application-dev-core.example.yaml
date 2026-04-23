@@ -13,7 +13,11 @@ spring:
           min-idle: 0
           max-wait: 500ms
           time-between-eviction-runs: 10s
-
+  mail:
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
 app:
   api:
     prefix: /api

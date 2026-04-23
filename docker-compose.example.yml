@@ -23,7 +23,16 @@ services:
     volumes:
       - redis_data:/data                  # Persist Redis data
     command: redis-server --requirepass "your-password" --appendonly yes
-    
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: mailpit_server
+    restart: unless-stopped
+    ports:
+      - "8025:8025" # for web interface
+      - "1025:1025" # for SMTP
+    environment:
+      - TZ=Asia/Ho_Chi_Minh
+      - MP_MAX_MESSAGES=1000
 volumes:
   mysql_data:
   redis_data:
