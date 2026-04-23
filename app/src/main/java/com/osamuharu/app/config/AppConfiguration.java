@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.util.pattern.PathPatternParser;
 
 @Configuration
-public class CoreConfiguration {
+public class AppConfiguration {
 
   @Bean
   public PathPatternParser pathPatternParser() {
