@@ -4,4 +4,4 @@ spring:
   profiles:
     active: dev
     include:
-      - dev-core
+      - dev-app
