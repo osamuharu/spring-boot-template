@@ -5,7 +5,7 @@ plugins {
 bootJar { enabled = true }
 
 dependencies {
-    implementation project(':core')
+    implementation project(':app')
     implementation project(':user')
     implementation project(':auth')
 
