@@ -48,7 +48,7 @@ jackson-dataformat-yaml = { group = "com.fasterxml.jackson.dataformat", name = "
 mapstruct = { group = "org.mapstruct", name = "mapstruct", version.ref = "mapstruct" }
 
 # Security
-spring-boot-starter-security = { group = "org.springframework.boot", name = "spring-boot-starter-security", version.ref = "springBoot" }
+spring-boot-starter-security = { group = "org.springframework.boot", name = "spring-boot-starter-security" }
 
 # JWT
 jjwt-api = { group = "io.jsonwebtoken", name = "jjwt-api", version.ref = "jwtApi" }
