@@ -1,9 +1,9 @@
 package com.osamuharu.user.infrastructure.persistence.adapter;
 
-import com.osamuharu.user.application.mapper.UserMapper;
 import com.osamuharu.user.domain.entity.User;
 import com.osamuharu.user.domain.repository.UserRepository;
 import com.osamuharu.user.infrastructure.persistence.entity.UserEntity;
+import com.osamuharu.user.infrastructure.persistence.mapper.UserPersistenceMapper;
 import com.osamuharu.user.infrastructure.persistence.repository.UserJpaRepository;
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 public class UserRepositoryAdapter implements UserRepository {
 
   private final UserJpaRepository jpaRepository;
-  private final UserMapper mapper;
+  private final UserPersistenceMapper mapper;
 
   @Override
   public User save(User user) {

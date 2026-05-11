@@ -1,6 +1,6 @@
 package com.osamuharu.user.application.usecase;
 
-import com.osamuharu.shared.port.PasswordPost;
+import com.osamuharu.security.port.PasswordPort;
 import com.osamuharu.user.domain.entity.User;
 import com.osamuharu.user.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 public class UpdateUserUseCase {
 
   private final UserRepository repository;
-  private final PasswordPost passwordPost;
+  private final PasswordPort passwordPost;
 
   public User execute(Long id, User user) {
     if (user == null) {

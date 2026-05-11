@@ -4,4 +4,6 @@ spring:
   profiles:
     active: dev
     include:
-      - dev-app
+      - dev-security
+      - dev-shared
+      - dev-notification

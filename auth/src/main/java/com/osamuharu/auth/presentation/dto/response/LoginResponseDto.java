@@ -1,6 +1,6 @@
 package com.osamuharu.auth.presentation.dto.response;
 
-import com.osamuharu.shared.dto.TokenDto;
+import com.osamuharu.security.dto.TokenDto;
 import lombok.Getter;
 import lombok.Setter;
 

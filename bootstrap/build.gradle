@@ -5,9 +5,11 @@ plugins {
 bootJar { enabled = true }
 
 dependencies {
-    implementation project(':app')
-    implementation project(':user')
+    implementation project(':shared')
+    implementation project(':security')
+    implementation project(':notification')
     implementation project(':auth')
+    implementation project(':user')
 
     implementation libs.spring.boot.starter
     implementation libs.spring.boot.starter.web

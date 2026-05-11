@@ -6,5 +6,7 @@ jar { enabled = true }
 
 dependencies {
     implementation project(':shared')
+    implementation project(':security')
+    
     implementation libs.mapstruct
 }

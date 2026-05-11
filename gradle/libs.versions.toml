@@ -18,6 +18,7 @@ swagger = "3.0.2"
 jwtApi = "0.13.0"
 jwtImpl = "0.13.0"
 jwtJackson = "0.13.0"
+modulith = "2.0.6"
 
 [libraries]
 # Spring Boot Starters
@@ -29,6 +30,10 @@ spring-boot-starter-webmvc = { group = "org.springframework.boot", name = "sprin
 spring-boot-starter-actuator = { group = "org.springframework.boot", name = "spring-boot-starter-actuator" }
 spring-boot-starter-mail = { group = "org.springframework.boot", name = "spring-boot-starter-mail" }
 string-boot-starter-thymeleaf = { group = "org.springframework.boot", name = "spring-boot-starter-thymeleaf" }
+
+# Modulith
+string-modulith-stater-jdbc = { group = "org.springframework.modulith", name = "spring-modulith-starter-jdbc", version.ref = "modulith" }
+string-modulith-event = { group = "org.springframework.modulith", name = "spring-modulith-events-core", version.ref = "modulith" }
 
 # Database
 mysql-connector = { group = "com.mysql", name = "mysql-connector-j", version.ref = "mysql" }

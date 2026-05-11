@@ -1,0 +1,16 @@
+plugins {
+}
+
+bootJar { enabled = false }
+jar { enabled = true }
+
+dependencies {
+    implementation project(":shared")
+
+    implementation libs.spring.boot.starter.security
+
+    // JWT
+    implementation libs.jjwt.api
+    implementation libs.jjwt.impl
+    implementation libs.jjwt.jackson
+}

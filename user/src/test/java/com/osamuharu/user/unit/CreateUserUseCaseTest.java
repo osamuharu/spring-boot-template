@@ -10,7 +10,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
-import com.osamuharu.shared.port.PasswordPost;
 import com.osamuharu.user.application.exception.EmailExistsException;
 import com.osamuharu.user.application.exception.UserCannotNullException;
 import com.osamuharu.user.application.exception.UserNameExistsException;

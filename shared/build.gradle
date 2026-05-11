@@ -11,6 +11,10 @@ dependencies {
     api libs.spring.boot.starter.validation
     runtimeOnly libs.mysql.connector
 
+    // Swagger
+    implementation libs.spring.boot.starter.webmvc
+    implementation libs.springdoc.openapi.ui
+
     // Redis
     api libs.spring.boot.starter.data.redis
 }

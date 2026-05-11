@@ -3,9 +3,9 @@ package com.osamuharu.auth.application.config;
 import com.osamuharu.auth.application.usecase.LoginUseCase;
 import com.osamuharu.auth.application.usecase.LogoutUseCase;
 import com.osamuharu.auth.application.usecase.RegisterUseCase;
-import com.osamuharu.shared.port.MemoryPost;
-import com.osamuharu.shared.port.PasswordPost;
-import com.osamuharu.shared.port.TokenPost;
+import com.osamuharu.security.port.BlackListPort;
+import com.osamuharu.security.port.PasswordPort;
+import com.osamuharu.security.port.TokenPort;
 import com.osamuharu.user.application.usecase.CreateUserUseCase;
 import com.osamuharu.user.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,9 +18,9 @@ public class AuthConfiguration {
 
   private final CreateUserUseCase createUserUseCase;
   private final UserRepository userRepository;
-  private final PasswordPost passwordPost;
-  private final TokenPost tokenPost;
-  private final MemoryPost memoryPost;
+  private final PasswordPort passwordPort;
+  private final TokenPort tokenPost;
+  private final BlackListPort blackListPort;
 
   @Bean
   public RegisterUseCase registerUseCase() {
@@ -29,11 +29,11 @@ public class AuthConfiguration {
 
   @Bean
   public LoginUseCase loginUseCase() {
-    return new LoginUseCase(userRepository, passwordPost);
+    return new LoginUseCase(userRepository, passwordPort);
   }
 
   @Bean
   public LogoutUseCase logoutUseCase() {
-    return new LogoutUseCase(tokenPost, memoryPost);
+    return new LogoutUseCase(tokenPost, blackListPort);
   }
 }

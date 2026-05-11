@@ -2,7 +2,7 @@ package com.osamuharu.auth.application.mapper;
 
 import com.osamuharu.auth.presentation.dto.request.RegisterRequestDto;
 import com.osamuharu.auth.presentation.dto.response.LoginResponseDto;
-import com.osamuharu.shared.dto.TokenDto;
+import com.osamuharu.security.dto.TokenDto;
 import com.osamuharu.user.domain.entity.User;
 import org.mapstruct.Mapper;
 

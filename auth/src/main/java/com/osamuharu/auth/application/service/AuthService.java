@@ -7,9 +7,9 @@ import com.osamuharu.auth.application.usecase.RegisterUseCase;
 import com.osamuharu.auth.presentation.dto.request.LoginRequestDto;
 import com.osamuharu.auth.presentation.dto.request.RegisterRequestDto;
 import com.osamuharu.auth.presentation.dto.response.LoginResponseDto;
-import com.osamuharu.shared.dto.PayloadDto;
-import com.osamuharu.shared.dto.TokenDto;
-import com.osamuharu.shared.port.TokenPost;
+import com.osamuharu.security.dto.PayloadDto;
+import com.osamuharu.security.dto.TokenDto;
+import com.osamuharu.security.port.TokenPort;
 import com.osamuharu.user.domain.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ public class AuthService {
   private final LoginUseCase loginUseCase;
   private final LogoutUseCase logoutUseCase;
   private final AuthMapper mapper;
-  private final TokenPost tokenPost;
+  private final TokenPort tokenPort;
 
   public void register(RegisterRequestDto dto) {
     registerUseCase.execute(mapper.toDomain(dto));
@@ -35,7 +35,7 @@ public class AuthService {
         .username(user.getUsername())
         .build();
 
-    TokenDto accessTokenDto = tokenPost.generateAccessToken(payloadDto);
+    TokenDto accessTokenDto = tokenPort.generateAccessToken(payloadDto);
 
     return mapper.toDto(user, accessTokenDto, "Bearer");
   }

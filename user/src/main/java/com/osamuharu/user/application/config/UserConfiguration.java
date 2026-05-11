@@ -1,6 +1,6 @@
 package com.osamuharu.user.application.config;
 
-import com.osamuharu.shared.port.PasswordPost;
+import com.osamuharu.security.port.PasswordPort;
 import com.osamuharu.user.application.usecase.CreateUserUseCase;
 import com.osamuharu.user.application.usecase.DeleteUseUseCase;
 import com.osamuharu.user.application.usecase.UpdateUserUseCase;
@@ -14,16 +14,16 @@ import org.springframework.context.annotation.Configuration;
 public class UserConfiguration {
 
   private final UserRepository userRepository;
-  private final PasswordPost passwordPost;
+  private final PasswordPort passwordPort;
 
   @Bean
   CreateUserUseCase createUserUseCase() {
-    return new CreateUserUseCase(userRepository, passwordPost);
+    return new CreateUserUseCase(userRepository, passwordPort);
   }
 
   @Bean
   UpdateUserUseCase updateUserUseCase() {
-    return new UpdateUserUseCase(userRepository, passwordPost);
+    return new UpdateUserUseCase(userRepository, passwordPort);
   }
 
   @Bean

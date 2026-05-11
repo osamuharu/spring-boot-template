@@ -1,0 +1,18 @@
+plugins {
+}
+
+bootJar { enabled = false }
+jar { enabled = true }
+
+dependencies {
+    implementation project(":shared")
+
+    // Mail
+    implementation libs.spring.boot.starter.mail
+    implementation libs.string.boot.starter.thymeleaf
+
+    // Modulith
+    implementation libs.string.modulith.stater.jdbc
+    implementation libs.string.modulith.event
+}
+
