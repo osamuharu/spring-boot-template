@@ -1,8 +1,9 @@
 package com.osamuharu.security.config;
 
 import com.osamuharu.security.filter.JwtFilter;
+import com.osamuharu.security.port.BlackListPort;
+import com.osamuharu.security.port.TokenPort;
 import com.osamuharu.security.properties.SecurityProperties;
-import com.osamuharu.shared.filter.ExceptionFilter;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.util.pattern.PathPatternParser;
 
 @Configuration
 @EnableMethodSecurity
@@ -32,8 +34,10 @@ public class SecurityConfiguration {
   private final SecurityProperties properties;
   private final UserDetailsService userDetailsService;
   private final AuthenticationEntryPoint authenticationEntryPoint;
-  private final ExceptionFilter exceptionFilter;
-  private final JwtFilter jwtFilter;
+  private final SecurityProperties securityProperties;
+  private final TokenPort tokenPort;
+  private final PathPatternParser pathPatternParser;
+  private final BlackListPort blackListPort;
 
   private String[] publicUrls;
   private static final int BCRYPT_STRENGTH = 12;
@@ -62,6 +66,15 @@ public class SecurityConfiguration {
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) {
+    JwtFilter jwtFilter = new JwtFilter(
+        securityProperties,
+        userDetailsService,
+        tokenPort,
+        pathPatternParser,
+        blackListPort
+    );
+
+    jwtFilter.init();
 
     http
         .csrf(AbstractHttpConfigurer::disable)
@@ -76,8 +89,7 @@ public class SecurityConfiguration {
             session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .exceptionHandling(
             exception -> exception.authenticationEntryPoint(authenticationEntryPoint))
-        .addFilterBefore(exceptionFilter, UsernamePasswordAuthenticationFilter.class)
-        .addFilterAfter(jwtFilter, ExceptionFilter.class);
+        .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
     return http.build();
   }

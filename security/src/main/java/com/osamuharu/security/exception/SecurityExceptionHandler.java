@@ -40,7 +40,7 @@ public class SecurityExceptionHandler {
         .name("AuthorizationDeniedException")
         .status(HttpStatus.FORBIDDEN
             .value())
-        .message("Access denied: " + ex.getMessage())
+        .message(ex.getMessage())
         .timestamp(System.currentTimeMillis())
         .error(null)
         .build();
