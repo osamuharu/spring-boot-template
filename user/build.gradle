@@ -4,9 +4,13 @@ plugins {
 bootJar { enabled = false }
 jar { enabled = true }
 
+bootRun {
+    enabled = false
+}
+
 dependencies {
     implementation project(':shared')
     implementation project(':security')
-    
+
     implementation libs.mapstruct
 }

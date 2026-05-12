@@ -1,9 +1,8 @@
 rootProject.name = 'template'
 
-include 'user'
-include 'shared'
 include 'bootstrap'
-include 'app'
-include 'auth'
 include 'security'
+include 'shared'
+include 'user'
+include 'auth'
 include 'notification'
