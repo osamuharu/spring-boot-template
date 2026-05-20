@@ -1,13 +1,13 @@
 package com.osamuharu.auth.application.config;
 
-import com.osamuharu.auth.application.usecase.LoginUseCase;
-import com.osamuharu.auth.application.usecase.LogoutUseCase;
-import com.osamuharu.auth.application.usecase.RegisterUseCase;
-import com.osamuharu.security.port.BlackListPort;
-import com.osamuharu.security.port.PasswordPort;
-import com.osamuharu.security.port.TokenPort;
-import com.osamuharu.user.application.usecase.CreateUserUseCase;
-import com.osamuharu.user.domain.repository.UserRepository;
+import com.osamuharu.auth.application.useCases.LoginUseCase;
+import com.osamuharu.auth.application.useCases.LogoutUseCase;
+import com.osamuharu.auth.application.useCases.RegisterUseCase;
+import com.osamuharu.security.ports.BlackListPort;
+import com.osamuharu.security.ports.PasswordPort;
+import com.osamuharu.security.ports.TokenPort;
+import com.osamuharu.user.application.useCases.CreateUserUseCase;
+import com.osamuharu.user.domain.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

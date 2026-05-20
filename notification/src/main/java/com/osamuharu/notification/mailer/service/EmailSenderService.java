@@ -1,7 +1,7 @@
 package com.osamuharu.notification.mailer.service;
 
 import com.osamuharu.notification.mailer.properties.MailerProperties;
-import com.osamuharu.shared.dto.SendMailMessageSimpleDto;
+import com.osamuharu.shared.dtos.SendMailMessageSimpleDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;

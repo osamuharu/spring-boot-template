@@ -1,8 +1,8 @@
 package com.osamuharu.security.config;
 
-import com.osamuharu.security.filter.JwtFilter;
-import com.osamuharu.security.port.BlackListPort;
-import com.osamuharu.security.port.TokenPort;
+import com.osamuharu.security.filters.JwtFilter;
+import com.osamuharu.security.ports.BlackListPort;
+import com.osamuharu.security.ports.TokenPort;
 import com.osamuharu.security.properties.SecurityProperties;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
