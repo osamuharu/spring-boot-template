@@ -1,6 +1,11 @@
 package com.osamuharu.user.application.useCases;
 
 import com.osamuharu.security.ports.PasswordPort;
+import com.osamuharu.user.application.exceptions.EmailExistsException;
+import com.osamuharu.user.application.exceptions.PasswordDuplicateException;
+import com.osamuharu.user.application.exceptions.UserCannotNullException;
+import com.osamuharu.user.application.exceptions.UserNameExistsException;
+import com.osamuharu.user.application.exceptions.UserNotFoundException;
 import com.osamuharu.user.domain.entities.User;
 import com.osamuharu.user.domain.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,15 +18,15 @@ public class UpdateUserUseCase {
 
   public User execute(Long id, User user) {
     if (user == null) {
-      return null;
+      throw new UserCannotNullException();
     }
 
     User existsUser = repository.findById(id)
-        .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+        .orElseThrow(UserNotFoundException::new);
 
     if (user.getEmail() != null) {
       if (repository.existsByEmail(user.getEmail())) {
-        throw new IllegalArgumentException("Email already exists: " + user.getEmail());
+        throw new EmailExistsException();
       }
 
       existsUser.changeEmail(user.getEmail());
@@ -29,7 +34,7 @@ public class UpdateUserUseCase {
 
     if (user.getUsername() != null) {
       if (repository.existsByUsername(user.getUsername())) {
-        throw new IllegalArgumentException("Username already exists: " + user.getUsername());
+        throw new UserNameExistsException();
       }
       existsUser.changeUsername(user.getUsername());
     }
@@ -45,7 +50,7 @@ public class UpdateUserUseCase {
     if (user.getPassword() != null) {
 
       if (passwordPost.verifyPassword(user.getPassword(), existsUser.getPassword())) {
-        throw new IllegalArgumentException("New password cannot be the same as the old password");
+        throw new PasswordDuplicateException();
       }
 
       String hashedPassword = passwordPost.hashPassword(user.getPassword());

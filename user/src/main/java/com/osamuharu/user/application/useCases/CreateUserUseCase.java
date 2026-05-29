@@ -20,11 +20,11 @@ public class CreateUserUseCase {
     }
 
     if (repository.existsByEmail(user.getEmail())) {
-      throw new EmailExistsException(user.getEmail());
+      throw new EmailExistsException();
     }
 
     if (repository.existsByUsername(user.getUsername())) {
-      throw new UserNameExistsException(user.getUsername());
+      throw new UserNameExistsException();
     }
 
     String hashedPassword = passwordPort.hashPassword(user.getPassword());

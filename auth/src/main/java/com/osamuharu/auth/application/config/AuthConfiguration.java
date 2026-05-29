@@ -6,7 +6,6 @@ import com.osamuharu.auth.application.useCases.RegisterUseCase;
 import com.osamuharu.security.ports.BlackListPort;
 import com.osamuharu.security.ports.PasswordPort;
 import com.osamuharu.security.ports.TokenPort;
-import com.osamuharu.user.application.useCases.CreateUserUseCase;
 import com.osamuharu.user.domain.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +15,6 @@ import org.springframework.context.annotation.Configuration;
 @RequiredArgsConstructor
 public class AuthConfiguration {
 
-  private final CreateUserUseCase createUserUseCase;
   private final UserRepository userRepository;
   private final PasswordPort passwordPort;
   private final TokenPort tokenPost;
@@ -24,7 +22,7 @@ public class AuthConfiguration {
 
   @Bean
   public RegisterUseCase registerUseCase() {
-    return new RegisterUseCase(createUserUseCase);
+    return new RegisterUseCase(userRepository, passwordPort);
   }
 
   @Bean

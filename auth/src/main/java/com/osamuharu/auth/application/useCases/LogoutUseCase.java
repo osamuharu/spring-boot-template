@@ -1,5 +1,6 @@
 package com.osamuharu.auth.application.useCases;
 
+import com.osamuharu.auth.application.exceptions.InvalidTokenException;
 import com.osamuharu.security.ports.BlackListPort;
 import com.osamuharu.security.ports.TokenPort;
 import java.time.Duration;
@@ -12,11 +13,11 @@ public class LogoutUseCase {
   private final TokenPort tokenPost;
   private final BlackListPort blackListPort;
 
-  public void execute(String token) throws IllegalAccessException {
+  public void execute(String token) {
     String idToken = tokenPost.extractIdToken(token);
 
     if (idToken == null) {
-      throw new IllegalAccessException("Invalid token");
+      throw new InvalidTokenException();
     }
 
     Instant now = Instant.now();

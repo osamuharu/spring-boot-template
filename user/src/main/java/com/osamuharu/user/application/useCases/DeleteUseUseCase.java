@@ -1,5 +1,7 @@
 package com.osamuharu.user.application.useCases;
 
+import com.osamuharu.user.application.exceptions.InvalidUserException;
+import com.osamuharu.user.application.exceptions.UserNotFoundException;
 import com.osamuharu.user.domain.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -10,11 +12,11 @@ public class DeleteUseUseCase {
 
   public void execute(Long id) {
     if (id <= 0) {
-      throw new IllegalArgumentException("Invalid user id: " + id);
+      throw new InvalidUserException();
     }
 
     if (!repository.existsById(id)) {
-      throw new RuntimeException("User not found with id: " + id);
+      throw new UserNotFoundException();
     }
 
     repository.deleteById(id);
