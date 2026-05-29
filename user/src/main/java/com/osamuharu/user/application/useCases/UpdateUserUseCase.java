@@ -48,10 +48,8 @@ public class UpdateUserUseCase {
         throw new IllegalArgumentException("New password cannot be the same as the old password");
       }
 
-      existsUser.changePassword(user.getPassword());
-
-      String hashedPassword = passwordPost.hashPassword(existsUser.getPassword());
-      existsUser.setPassword(hashedPassword);
+      String hashedPassword = passwordPost.hashPassword(user.getPassword());
+      existsUser.changePassword(hashedPassword);
     }
 
     return repository.save(existsUser);

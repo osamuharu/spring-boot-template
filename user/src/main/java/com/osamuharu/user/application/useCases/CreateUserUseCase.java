@@ -28,7 +28,7 @@ public class CreateUserUseCase {
     }
 
     String hashedPassword = passwordPort.hashPassword(user.getPassword());
-    user.setPassword(hashedPassword);
+    user.changePassword(hashedPassword);
 
     return repository.save(user);
   }
