@@ -50,7 +50,7 @@ subprojects {
     springBoot {
         buildInfo()
     }
-    
+
     configurations {
         configureEach {
             exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
@@ -66,6 +66,7 @@ subprojects {
         // Lombok
         compileOnly libs.lombok
         annotationProcessor libs.lombok
+        annotationProcessor libs.lombok.mapstruct.binding
 
         // Testing
         testImplementation libs.spring.boot.starter.test

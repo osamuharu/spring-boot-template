@@ -15,4 +15,5 @@ dependencies {
 
     implementation libs.spring.boot.starter.validation
     implementation libs.mapstruct
+    annotationProcessor libs.mapstruct.processor
 }

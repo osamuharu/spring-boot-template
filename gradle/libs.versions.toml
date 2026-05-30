@@ -13,6 +13,7 @@ mysql = "8.3.0"
 picocli = "4.7.7"
 disruptor = "4.0.0"
 lombok = "1.18.42"
+lombokMapstructBinding = "0.2.0"
 mapstruct = "1.6.3"
 swagger = "3.0.2"
 jwtApi = "0.13.0"
@@ -49,9 +50,10 @@ spring-boot-starter-log4j2 = { group = "org.springframework.boot", name = "sprin
 picocli = { group = "info.picocli", name = "picocli", version.ref = "picocli" }
 disruptor = { group = "com.lmax", name = "disruptor", version.ref = "disruptor" }
 lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok" }
+lombok-mapstruct-binding = { group = "org.projectlombok", name = "lombok-mapstruct-binding", version.ref = "lombokMapstructBinding" }
 jackson-dataformat-yaml = { group = "com.fasterxml.jackson.dataformat", name = "jackson-dataformat-yaml" }
 mapstruct = { group = "org.mapstruct", name = "mapstruct", version.ref = "mapstruct" }
-
+mapstruct-processor = { group = "org.mapstruct", name = "mapstruct-processor", version.ref = "mapstruct" }
 # Security
 spring-boot-starter-security = { group = "org.springframework.boot", name = "spring-boot-starter-security" }
 

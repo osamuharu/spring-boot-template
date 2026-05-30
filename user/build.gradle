@@ -11,6 +11,8 @@ bootRun {
 dependencies {
     implementation project(':shared')
     implementation project(':security')
+    implementation project(':file')
 
     implementation libs.mapstruct
+    annotationProcessor libs.mapstruct.processor
 }

@@ -1,0 +1,11 @@
+spring:
+  modulith:
+    events:
+      jdbc:
+        schema-initialization:
+          enabled: true
+  mail:
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
