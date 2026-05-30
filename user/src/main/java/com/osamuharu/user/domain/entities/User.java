@@ -1,9 +1,11 @@
 package com.osamuharu.user.domain.entities;
 
+import com.osamuharu.shared.entities.Timestamp;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
+@Builder
 public class User {
 
   private final Long id;
@@ -12,17 +14,7 @@ public class User {
   private String firstName;
   private String lastName;
   private String password;
-
-  @Builder
-  public User(Long id, String email, String username, String firstName, String lastName,
-      String password) {
-    this.id = id;
-    this.email = email;
-    this.username = username;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.password = password;
-  }
+  private Timestamp timestamp;
 
   public void changeEmail(String email) {
     if (email.equals(this.email)) {

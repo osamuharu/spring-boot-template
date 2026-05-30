@@ -52,6 +52,8 @@ public class UserAppMapperImpl implements UserAppMapper {
     userDto.setFirstName(user.getFirstName());
     userDto.setLastName(user.getLastName());
     userDto.setEmail(user.getEmail());
+    userDto.setCreatedAt(user.getTimestamp().getCreatedAt());
+    userDto.setUpdatedAt(user.getTimestamp().getUpdatedAt());
 
     return userDto;
   }

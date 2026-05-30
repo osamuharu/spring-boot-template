@@ -1,7 +1,9 @@
 package com.osamuharu.user.infrastructure.persistence.entities;
 
 import com.osamuharu.shared.entities.IdAutoIncrement;
+import com.osamuharu.shared.entities.Timestamp;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -29,4 +31,7 @@ public class UserEntity extends IdAutoIncrement {
 
   @Column(name = "email", length = 100, nullable = false)
   private String email;
+
+  @Embedded
+  private Timestamp timestamp = new Timestamp();
 }

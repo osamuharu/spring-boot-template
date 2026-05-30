@@ -2,6 +2,7 @@ package com.osamuharu.user.presentation.dto.responses;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.Instant;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,4 +17,7 @@ public class UserDto {
   private String lastName;
   private String username;
   private String email;
+
+  private Instant createdAt;
+  private Instant updatedAt;
 }
