@@ -1,11 +1,13 @@
 package com.osamuharu.user.domain.entities;
 
 import com.osamuharu.shared.entities.Timestamp;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
-@Builder
+@Setter
+@AllArgsConstructor
 public class User {
 
   private final Long id;
@@ -14,6 +16,7 @@ public class User {
   private String firstName;
   private String lastName;
   private String password;
+  private String avatarId;
   private Timestamp timestamp;
 
   public void changeEmail(String email) {
@@ -50,5 +53,13 @@ public class User {
 
   public void changePassword(String password) {
     this.password = password;
+  }
+
+  public void changeAvatar(String avatarId) {
+    if (avatarId.equals(this.avatarId)) {
+      return;
+    }
+
+    this.avatarId = avatarId;
   }
 }

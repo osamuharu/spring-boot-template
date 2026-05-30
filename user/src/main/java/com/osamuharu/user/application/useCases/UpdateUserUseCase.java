@@ -57,6 +57,10 @@ public class UpdateUserUseCase {
       existsUser.changePassword(hashedPassword);
     }
 
+    if (user.getAvatarId() != null) {
+      existsUser.changeAvatar(user.getAvatarId());
+    }
+
     return repository.save(existsUser);
   }
 }
