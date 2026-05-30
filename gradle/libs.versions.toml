@@ -20,6 +20,7 @@ jwtApi = "0.13.0"
 jwtImpl = "0.13.0"
 jwtJackson = "0.13.0"
 modulith = "2.0.6"
+cloudinaryHttp5 = "2.3.2"
 
 [libraries]
 # Spring Boot Starters
@@ -64,6 +65,10 @@ jjwt-jackson = { group = "io.jsonwebtoken", name = "jjwt-jackson", version.ref =
 
 # Redis
 spring-boot-starter-data-redis = { group = "org.springframework.boot", name = "spring-boot-starter-data-redis" }
+
+# Cloudinary
+cloudinary-http5 = { group = "com.cloudinary", name = "cloudinary-http5", version.ref = "cloudinaryHttp5" }
+cloudinary-taglib = { group = "com.cloudinary", name = "cloudinary-taglib", version.ref = "cloudinaryHttp5" }
 
 # Testing
 spring-boot-starter-test = { group = "org.springframework.boot", name = "spring-boot-starter-test" }

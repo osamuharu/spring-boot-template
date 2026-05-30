@@ -10,6 +10,7 @@ dependencies {
     implementation project(':notification')
     implementation project(':auth')
     implementation project(':user')
+    implementation project(':file')
 
     implementation libs.spring.boot.starter
     implementation libs.spring.boot.starter.web

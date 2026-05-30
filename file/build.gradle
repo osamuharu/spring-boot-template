@@ -1,0 +1,19 @@
+plugins {
+}
+
+bootJar { enabled = false }
+jar { enabled = true }
+
+bootRun {
+    enabled = false
+}
+
+dependencies {
+    implementation project(':shared')
+
+    implementation libs.cloudinary.http5
+    implementation libs.cloudinary.taglib
+
+    implementation libs.mapstruct
+    annotationProcessor libs.mapstruct.processor
+}

@@ -7,3 +7,4 @@ spring:
       - dev-security
       - dev-shared
       - dev-notification
+      - dev-file
