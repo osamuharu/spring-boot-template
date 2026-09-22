@@ -10,10 +10,8 @@ import com.osamuharu.auth.presentation.dto.responses.LoginResponseDto;
 import com.osamuharu.security.dtos.PayloadDto;
 import com.osamuharu.security.dtos.TokenDto;
 import com.osamuharu.security.ports.TokenPort;
-import com.osamuharu.shared.dtos.SendMailMessageSimpleDto;
 import com.osamuharu.user.domain.entities.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,20 +24,12 @@ public class AuthService {
   private final LogoutUseCase logoutUseCase;
   private final AuthMapper mapper;
   private final TokenPort tokenPort;
-  private final ApplicationEventPublisher eventPublisher;
+
 
   @Transactional
   public void register(RegisterRequestDto dto) {
 
     registerUseCase.execute(mapper.toDto(dto));
-
-    eventPublisher.publishEvent(
-        SendMailMessageSimpleDto.builder()
-            .to(dto.getEmail())
-            .subject("Welcome " + dto.getUsername())
-            .text("Welcome to our service, " + dto.getUsername() + "!")
-            .build()
-    );
   }
 
   public LoginResponseDto login(LoginRequestDto dto) {
