@@ -1,7 +1,7 @@
 package com.osamuharu.security.adapters;
 
-import com.osamuharu.shared.dtos.UserSecurityDto;
-import com.osamuharu.shared.ports.UserSecurityPort;
+import com.osamuharu.security.dtos.UserCredentialsDto;
+import com.osamuharu.security.ports.UserCredentialsPort;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.NonNull;
@@ -17,13 +17,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserDetailServiceAdapter implements UserDetailsService {
 
-  private final UserSecurityPort userSecurityPort;
+  private final UserCredentialsPort userCredentialsPort;
 
   @Override
   @NonNull
   public UserDetails loadUserByUsername(@NonNull String username) throws UsernameNotFoundException {
 
-    UserSecurityDto userDto = userSecurityPort.loadUserByUsername(username)
+    UserCredentialsDto userDto = userCredentialsPort.loadUserByUsername(username)
         .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
 
     Set<GrantedAuthority> authorities = new HashSet<>();
