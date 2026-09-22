@@ -31,7 +31,7 @@ public class AuthService {
   @Transactional
   public void register(RegisterRequestDto dto) {
 
-    registerUseCase.execute(mapper.toDomain(dto));
+    registerUseCase.execute(mapper.toDto(dto));
 
     eventPublisher.publishEvent(
         SendMailMessageSimpleDto.builder()
