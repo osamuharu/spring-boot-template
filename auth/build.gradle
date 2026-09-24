@@ -13,6 +13,7 @@ dependencies {
     implementation project(':user')
     implementation project(':security')
 
+    implementation libs.spring.boot.starter.security
     implementation libs.spring.boot.starter.validation
     implementation libs.mapstruct
     annotationProcessor libs.mapstruct.processor

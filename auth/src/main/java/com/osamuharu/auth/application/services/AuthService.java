@@ -7,11 +7,13 @@ import com.osamuharu.auth.application.useCases.RegisterUseCase;
 import com.osamuharu.auth.presentation.dto.requests.LoginRequestDto;
 import com.osamuharu.auth.presentation.dto.requests.RegisterRequestDto;
 import com.osamuharu.auth.presentation.dto.responses.LoginResponseDto;
-import com.osamuharu.security.dtos.PayloadDto;
 import com.osamuharu.security.dtos.TokenDto;
+import com.osamuharu.security.ports.InternalSecurityPort;
 import com.osamuharu.security.ports.TokenPort;
-import com.osamuharu.user.domain.entities.User;
+import com.osamuharu.shared.dtos.UserDto;
+import java.nio.file.attribute.UserPrincipalNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +26,7 @@ public class AuthService {
   private final LogoutUseCase logoutUseCase;
   private final AuthMapper mapper;
   private final TokenPort tokenPort;
-
+  private final InternalSecurityPort internalSecurityPort;
 
   @Transactional
   public void register(RegisterRequestDto dto) {
@@ -32,19 +34,17 @@ public class AuthService {
     registerUseCase.execute(mapper.toDto(dto));
   }
 
-  public LoginResponseDto login(LoginRequestDto dto) {
-    User user = loginUseCase.execute(dto);
+  public LoginResponseDto login(LoginRequestDto dto) throws UserPrincipalNotFoundException {
+    UserDto user = loginUseCase.execute(dto);
 
-    PayloadDto payloadDto = PayloadDto.builder()
-        .username(user.getUsername())
-        .build();
+    Authentication authentication = internalSecurityPort.getCurrentAuthentication();
 
-    TokenDto accessTokenDto = tokenPort.generateAccessToken(payloadDto);
+    TokenDto accessTokenDto = tokenPort.generateAccessToken(authentication);
 
     return mapper.toDto(user, accessTokenDto, "Bearer");
   }
 
-  public void logout(String token) throws IllegalAccessException {
+  public void logout(String token) {
     logoutUseCase.execute(token);
   }
 }

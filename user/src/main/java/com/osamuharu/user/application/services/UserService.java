@@ -1,5 +1,6 @@
 package com.osamuharu.user.application.services;
 
+import com.osamuharu.shared.dtos.UserDto;
 import com.osamuharu.user.application.mappers.UserAppMapper;
 import com.osamuharu.user.application.useCases.CreateUserUseCase;
 import com.osamuharu.user.application.useCases.DeleteUseUseCase;
@@ -7,7 +8,6 @@ import com.osamuharu.user.application.useCases.UpdateUserUseCase;
 import com.osamuharu.user.domain.repositories.UserRepository;
 import com.osamuharu.user.presentation.dto.requests.CreateUserDto;
 import com.osamuharu.user.presentation.dto.requests.UpdateUserDto;
-import com.osamuharu.user.presentation.dto.responses.UserDto;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,7 @@
 package com.osamuharu.security.adapters;
 
-import com.osamuharu.security.dtos.UserCredentialsDto;
 import com.osamuharu.security.ports.UserCredentialsPort;
+import com.osamuharu.shared.dtos.UserDto;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.NonNull;
@@ -23,7 +23,7 @@ public class UserDetailServiceAdapter implements UserDetailsService {
   @NonNull
   public UserDetails loadUserByUsername(@NonNull String username) throws UsernameNotFoundException {
 
-    UserCredentialsDto userDto = userCredentialsPort.loadUserByUsername(username)
+    UserDto userDto = userCredentialsPort.loadUserByUsername(username)
         .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
 
     Set<GrantedAuthority> authorities = new HashSet<>();

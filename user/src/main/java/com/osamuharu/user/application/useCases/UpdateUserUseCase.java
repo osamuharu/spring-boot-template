@@ -1,6 +1,5 @@
 package com.osamuharu.user.application.useCases;
 
-import com.osamuharu.security.ports.PasswordPort;
 import com.osamuharu.user.application.exceptions.EmailExistsException;
 import com.osamuharu.user.application.exceptions.PasswordDuplicateException;
 import com.osamuharu.user.application.exceptions.UserCannotNullException;
@@ -9,12 +8,13 @@ import com.osamuharu.user.application.exceptions.UserNotFoundException;
 import com.osamuharu.user.domain.entities.User;
 import com.osamuharu.user.domain.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @RequiredArgsConstructor
 public class UpdateUserUseCase {
 
   private final UserRepository repository;
-  private final PasswordPort passwordPost;
+  private final PasswordEncoder passwordEncoder;
 
   public User execute(Long id, User user) {
     if (user == null) {
@@ -48,12 +48,11 @@ public class UpdateUserUseCase {
     }
 
     if (user.getPassword() != null) {
-
-      if (passwordPost.verifyPassword(user.getPassword(), existsUser.getPassword())) {
+      if (passwordEncoder.matches(user.getPassword(), existsUser.getPassword())) {
         throw new PasswordDuplicateException();
       }
 
-      String hashedPassword = passwordPost.hashPassword(user.getPassword());
+      String hashedPassword = passwordEncoder.encode(user.getPassword());
       existsUser.changePassword(hashedPassword);
     }
 

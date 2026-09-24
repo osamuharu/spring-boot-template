@@ -1,9 +1,11 @@
 package com.osamuharu.security.ports;
 
-import com.osamuharu.security.dtos.UserCredentialsDto;
+import com.osamuharu.shared.dtos.UserDto;
 import java.util.Optional;
 
 public interface UserCredentialsPort {
 
-  Optional<UserCredentialsDto> loadUserByUsername(String username);
+  Optional<UserDto> loadUserByUsername(String username);
+
+  Optional<UserDto> loadUserByEmail(String email);
 }

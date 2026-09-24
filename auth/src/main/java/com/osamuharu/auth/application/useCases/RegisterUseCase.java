@@ -1,6 +1,7 @@
 package com.osamuharu.auth.application.useCases;
 
 import com.osamuharu.shared.dtos.SendMailMessageSimpleDto;
+import com.osamuharu.shared.dtos.UserDto;
 import com.osamuharu.user.application.services.UserService;
 import com.osamuharu.user.presentation.dto.requests.CreateUserDto;
 import lombok.RequiredArgsConstructor;
@@ -13,11 +14,11 @@ public class RegisterUseCase {
   private final ApplicationEventPublisher eventPublisher;
 
   public void execute(CreateUserDto dto) {
-    userService.createUser(dto);
+    UserDto user = userService.createUser(dto);
 
     eventPublisher.publishEvent(
         SendMailMessageSimpleDto.builder()
-            .to(dto.getEmail())
+            .to(user.getEmail())
             .subject("Welcome " + dto.getUsername())
             .text("Welcome to our service, " + dto.getUsername() + "!")
             .build()

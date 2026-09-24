@@ -1,6 +1,7 @@
-package com.osamuharu.user.presentation.dto.responses;
+package com.osamuharu.shared.dtos;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.Instant;
@@ -19,6 +20,10 @@ public class UserDto {
   private String lastName;
   private String username;
   private String email;
+
+  @JsonIgnore
+  private String password;
+
   private String avatarId;
   private Instant createdAt;
   private Instant updatedAt;

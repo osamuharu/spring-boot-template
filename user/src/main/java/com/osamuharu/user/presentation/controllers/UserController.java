@@ -1,10 +1,10 @@
 package com.osamuharu.user.presentation.controllers;
 
 import com.osamuharu.shared.annotation.ResponseMessage;
+import com.osamuharu.shared.dtos.UserDto;
 import com.osamuharu.user.application.services.UserService;
 import com.osamuharu.user.presentation.dto.requests.CreateUserDto;
 import com.osamuharu.user.presentation.dto.requests.UpdateUserDto;
-import com.osamuharu.user.presentation.dto.responses.UserDto;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

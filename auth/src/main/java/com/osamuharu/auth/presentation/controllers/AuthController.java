@@ -7,6 +7,7 @@ import com.osamuharu.auth.presentation.dto.responses.LoginResponseDto;
 import com.osamuharu.shared.annotation.ResponseMessage;
 import com.osamuharu.shared.utils.TokenUtils;
 import jakarta.validation.Valid;
+import java.nio.file.attribute.UserPrincipalNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,7 +36,8 @@ public class AuthController {
   @PostMapping("/login")
   @ResponseStatus(HttpStatus.OK)
   @ResponseMessage("Login successfully")
-  public LoginResponseDto login(@Valid @RequestBody LoginRequestDto dto) {
+  public LoginResponseDto login(@Valid @RequestBody LoginRequestDto dto)
+      throws UserPrincipalNotFoundException {
     return authService.login(dto);
   }
 
