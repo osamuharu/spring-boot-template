@@ -2,6 +2,7 @@ package com.osamuharu.user.application.services;
 
 import com.osamuharu.security.ports.InternalSecurityPort;
 import com.osamuharu.shared.dtos.UserDto;
+import com.osamuharu.user.application.exceptions.UserNotFoundException;
 import com.osamuharu.user.application.mappers.UserAppMapper;
 import com.osamuharu.user.application.useCases.CreateUserUseCase;
 import com.osamuharu.user.application.useCases.DeleteUseUseCase;
@@ -37,13 +38,13 @@ public class UserService {
   public UserDto getUserById(Long id) {
     return userRepository.findById(id)
         .map(mapper::toDto)
-        .orElseThrow(() -> new RuntimeException("User not found"));
+        .orElseThrow(UserNotFoundException::new);
   }
 
   public UserDto getUserByUsername(String username) {
     return userRepository.findByUsername(username)
         .map(mapper::toDto)
-        .orElseThrow(() -> new RuntimeException("User not found"));
+        .orElseThrow(UserNotFoundException::new);
   }
 
   public UserDto getMe() throws UserPrincipalNotFoundException {
