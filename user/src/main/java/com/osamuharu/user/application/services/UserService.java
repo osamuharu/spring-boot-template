@@ -1,5 +1,6 @@
 package com.osamuharu.user.application.services;
 
+import com.osamuharu.security.ports.InternalSecurityPort;
 import com.osamuharu.shared.dtos.UserDto;
 import com.osamuharu.user.application.mappers.UserAppMapper;
 import com.osamuharu.user.application.useCases.CreateUserUseCase;
@@ -8,8 +9,11 @@ import com.osamuharu.user.application.useCases.UpdateUserUseCase;
 import com.osamuharu.user.domain.repositories.UserRepository;
 import com.osamuharu.user.presentation.dto.requests.CreateUserDto;
 import com.osamuharu.user.presentation.dto.requests.UpdateUserDto;
+import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,6 +25,7 @@ public class UserService {
   private final DeleteUseUseCase deleteUseUseCase;
   private final UserRepository userRepository;
   private final UserAppMapper mapper;
+  private final InternalSecurityPort internalSecurityPort;
 
   public List<UserDto> getAllUsers() {
     return userRepository.findAll()
@@ -39,6 +44,17 @@ public class UserService {
     return userRepository.findByUsername(username)
         .map(mapper::toDto)
         .orElseThrow(() -> new RuntimeException("User not found"));
+  }
+
+  public UserDto getMe() throws UserPrincipalNotFoundException {
+    Authentication authentication = internalSecurityPort.getCurrentAuthentication();
+    UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+    if (userDetails == null) {
+      throw new UserPrincipalNotFoundException("User principal not found");
+    }
+
+    return getUserByUsername(userDetails.getUsername());
   }
 
   public UserDto createUser(CreateUserDto dto) {

@@ -6,6 +6,7 @@ import com.osamuharu.user.application.services.UserService;
 import com.osamuharu.user.presentation.dto.requests.CreateUserDto;
 import com.osamuharu.user.presentation.dto.requests.UpdateUserDto;
 import jakarta.validation.Valid;
+import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -43,6 +44,13 @@ public class UserController {
   @ResponseMessage("Get user by username successfully")
   public UserDto getByUsername(@PathVariable String username) {
     return service.getUserByUsername(username);
+  }
+
+  @GetMapping("/me")
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseMessage("Get user by me successfully")
+  public UserDto getMe() throws UserPrincipalNotFoundException {
+    return service.getMe();
   }
 
   @PostMapping
