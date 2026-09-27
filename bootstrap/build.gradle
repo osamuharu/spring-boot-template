@@ -36,6 +36,11 @@ final def mailHost = env("mail.host")
 final def mailPort = env("mail.port")
 final def mailUsername = env("mail.username")
 final def mailPassword = env("mail.password")
+final def adminUsername = env("admin.username")
+final def adminPassword = env("admin.password")
+final def adminFirstName = env("admin.first.name")
+final def adminLastName = env("admin.last.name")
+final def adminEmail = env("admin.email")
 
 liquibase {
     activities {
@@ -64,6 +69,11 @@ tasks.named('bootRun') {
     environment "MAIL_PORT", mailPort
     environment "MAIL_USERNAME", mailUsername
     environment "MAIL_PASSWORD", mailPassword
+    environment "ADMIN_USERNAME", adminUsername
+    environment "ADMIN_PASSWORD", adminPassword
+    environment "ADMIN_FIRST_NAME", adminFirstName
+    environment "ADMIN_LAST_NAME", adminLastName
+    environment "ADMIN_EMAIL", adminEmail
 }
 
 tasks.named('test') {
@@ -82,6 +92,11 @@ tasks.named('test') {
     environment "MAIL_PORT", mailPort
     environment "MAIL_USERNAME", mailUsername
     environment "MAIL_PASSWORD", mailPassword
+    environment "ADMIN_USERNAME", adminUsername
+    environment "ADMIN_PASSWORD", adminPassword
+    environment "ADMIN_FIRST_NAME", adminFirstName
+    environment "ADMIN_LAST_NAME", adminLastName
+    environment "ADMIN_EMAIL", adminEmail
 }
 
 tasks.register('runDev') {
