@@ -5,11 +5,13 @@ import com.osamuharu.shared.dtos.UserDto;
 import com.osamuharu.user.application.services.UserService;
 import com.osamuharu.user.presentation.dto.requests.CreateUserDto;
 import com.osamuharu.user.presentation.dto.requests.UpdateUserDto;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/{version}/users", version = "v1")
+@SecurityRequirement(name = "bearerAuth")
+@PreAuthorize("isAuthenticated()")
 @RequiredArgsConstructor
 public class UserController {
 

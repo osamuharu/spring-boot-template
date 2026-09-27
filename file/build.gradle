@@ -11,6 +11,8 @@ bootRun {
 dependencies {
     implementation project(':shared')
 
+    implementation libs.spring.boot.starter.security
+
     implementation libs.cloudinary.http5
     implementation libs.cloudinary.taglib
 
