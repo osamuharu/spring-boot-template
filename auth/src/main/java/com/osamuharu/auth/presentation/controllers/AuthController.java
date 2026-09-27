@@ -6,10 +6,13 @@ import com.osamuharu.auth.presentation.dto.requests.RegisterRequestDto;
 import com.osamuharu.auth.presentation.dto.responses.LoginResponseDto;
 import com.osamuharu.shared.annotation.ResponseMessage;
 import com.osamuharu.shared.utils.TokenUtils;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import java.nio.file.attribute.UserPrincipalNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,6 +39,9 @@ public class AuthController {
   @PostMapping("/login")
   @ResponseStatus(HttpStatus.OK)
   @ResponseMessage("Login successfully")
+  @Operation(
+      summary = "Login to the system"
+  )
   public LoginResponseDto login(@Valid @RequestBody LoginRequestDto dto)
       throws UserPrincipalNotFoundException {
     return authService.login(dto);
@@ -44,6 +50,8 @@ public class AuthController {
   @DeleteMapping("/logout")
   @ResponseMessage("Logout successfully")
   @ResponseStatus(HttpStatus.OK)
+  @SecurityRequirement(name = "bearerAuth")
+  @PreAuthorize("isAuthenticated()")
   public boolean logout(@RequestHeader(value = "Authorization", required = false) String authHeader)
       throws IllegalAccessException {
     String token = TokenUtils.extractTokenFromHeader(authHeader);
