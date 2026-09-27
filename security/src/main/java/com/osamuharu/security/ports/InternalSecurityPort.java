@@ -1,10 +1,12 @@
 package com.osamuharu.security.ports;
 
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 
 public interface InternalSecurityPort {
 
-  Authentication getCurrentAuthentication();
+  void setContextAsUser(UserDetails userDetails, String token);
 
-  void setContextAsUser(String username);
+  String getCurrentToken();
+
+  UserDetails getCurrentUser();
 }

@@ -3,14 +3,12 @@ package com.osamuharu.security.ports;
 
 import com.osamuharu.security.dtos.PayloadDto;
 import com.osamuharu.security.dtos.TokenDto;
-import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.time.Instant;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 
 public interface TokenPort {
 
-  TokenDto generateAccessToken(Authentication authentication)
-      throws UserPrincipalNotFoundException;
+  TokenDto generateAccessToken(UserDetails userDetails);
 
   PayloadDto extractPayload(String token);
 

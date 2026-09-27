@@ -86,6 +86,4 @@ public class GlobalExceptionHandler {
             .value())
         .body(errorResponse);
   }
-
-
 }

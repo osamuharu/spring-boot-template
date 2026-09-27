@@ -7,7 +7,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 
@@ -15,22 +14,47 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class SpringSecurityAdapter implements InternalSecurityPort {
 
-  private final UserDetailsService userDetailsService;
   private final HttpServletRequest request;
 
   @Override
-  public void setContextAsUser(String username) {
-    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-
+  public void setContextAsUser(UserDetails userDetails, String token) {
     UsernamePasswordAuthenticationToken authentication =
-        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        new UsernamePasswordAuthenticationToken(userDetails, token,
+            userDetails.getAuthorities());
 
     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
     SecurityContextHolder.getContext().setAuthentication(authentication);
   }
 
   @Override
-  public Authentication getCurrentAuthentication() {
-    return SecurityContextHolder.getContext().getAuthentication();
+  public String getCurrentToken() {
+    {
+      Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+      if (authentication == null || !authentication.isAuthenticated()) {
+        return null;
+      }
+
+      if (authentication.getCredentials() instanceof String token && !token.isBlank()) {
+        return token;
+      }
+
+      return null;
+    }
+  }
+
+  @Override
+  public UserDetails getCurrentUser() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+    if (authentication == null || !authentication.isAuthenticated()) {
+      return null;
+    }
+
+    if (authentication.getPrincipal() instanceof UserDetails userDetails) {
+      return userDetails;
+    }
+
+    return null;
   }
 }

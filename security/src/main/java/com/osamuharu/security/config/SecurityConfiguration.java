@@ -63,7 +63,8 @@ public class SecurityConfiguration {
     return new AuthTokenFilter(
         tokenPort,
         blackListPort,
-        internalSecurityPort
+        internalSecurityPort,
+        userDetailsService
     );
   }
 

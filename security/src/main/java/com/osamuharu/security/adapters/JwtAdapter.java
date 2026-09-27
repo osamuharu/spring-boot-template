@@ -12,7 +12,6 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.time.Instant;
 import java.util.Date;
 import java.util.UUID;
@@ -20,7 +19,6 @@ import javax.crypto.SecretKey;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -37,14 +35,7 @@ public class JwtAdapter implements TokenPort {
   }
 
   @Override
-  public TokenDto generateAccessToken(Authentication authentication)
-      throws UserPrincipalNotFoundException {
-    UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
-    if (userDetails == null) {
-      throw new UserPrincipalNotFoundException("User principal not found in authentication object");
-    }
-
+  public TokenDto generateAccessToken(UserDetails userDetails) {
     Instant expiresIn = Instant.now().plus(jwtProperties.getAccessTokenExpiration());
     String jwtId = UUID.randomUUID().toString();
 

@@ -12,6 +12,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -21,6 +23,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
   private final TokenPort tokenPort;
   private final BlackListPort blackListPort;
   private final InternalSecurityPort internalSecurityPort;
+  private final UserDetailsService userDetailsService;
 
   private String parseJwt(HttpServletRequest request) {
     String headerAuth = request.getHeader("Authorization");
@@ -46,7 +49,9 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
       String username = tokenPort.extractPayload(token).getUsername();
 
-      internalSecurityPort.setContextAsUser(username);
+      UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+      internalSecurityPort.setContextAsUser(userDetails, token);
     }
 
     filterChain.doFilter(request, response);

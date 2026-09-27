@@ -5,18 +5,15 @@ import com.osamuharu.auth.presentation.dto.requests.LoginRequestDto;
 import com.osamuharu.auth.presentation.dto.requests.RegisterRequestDto;
 import com.osamuharu.auth.presentation.dto.responses.LoginResponseDto;
 import com.osamuharu.shared.annotation.ResponseMessage;
-import com.osamuharu.shared.utils.TokenUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
-import java.nio.file.attribute.UserPrincipalNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,8 +39,7 @@ public class AuthController {
   @Operation(
       summary = "Login to the system"
   )
-  public LoginResponseDto login(@Valid @RequestBody LoginRequestDto dto)
-      throws UserPrincipalNotFoundException {
+  public LoginResponseDto login(@Valid @RequestBody LoginRequestDto dto) {
     return authService.login(dto);
   }
 
@@ -52,15 +48,8 @@ public class AuthController {
   @ResponseStatus(HttpStatus.OK)
   @SecurityRequirement(name = "bearerAuth")
   @PreAuthorize("isAuthenticated()")
-  public boolean logout(@RequestHeader(value = "Authorization", required = false) String authHeader)
-      throws IllegalAccessException {
-    String token = TokenUtils.extractTokenFromHeader(authHeader);
-
-    if (token == null) {
-      throw new IllegalAccessException("Authorization header is missing or invalid");
-    }
-
-    authService.logout(token);
+  public boolean logout() {
+    authService.logout();
     return true;
   }
 }

@@ -17,17 +17,21 @@ import org.springdoc.core.customizers.OperationCustomizer;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 @Configuration
 @RequiredArgsConstructor
 public class AuthConfiguration {
 
   private final UserService userService;
-  private final InternalSecurityPort internalSecurityPort;
   private final TokenPort tokenPort;
   private final BlackListPort blackListPort;
   private final ApplicationEventPublisher eventPublisher;
   private final UserCredentialsPort userCredentialsPort;
+  private final InternalSecurityPort internalSecurityPort;
+  private final UserDetailsService userDetailsService;
+  private final AuthenticationManager authenticationManager;
 
   @Bean
   public RegisterUseCase registerUseCase() {
@@ -36,12 +40,13 @@ public class AuthConfiguration {
 
   @Bean
   public LoginUseCase loginUseCase() {
-    return new LoginUseCase(internalSecurityPort, userCredentialsPort);
+    return new LoginUseCase(userCredentialsPort, tokenPort, userDetailsService,
+        internalSecurityPort, authenticationManager);
   }
 
   @Bean
   public LogoutUseCase logoutUseCase() {
-    return new LogoutUseCase(tokenPort, blackListPort);
+    return new LogoutUseCase(tokenPort, blackListPort, internalSecurityPort);
   }
 
   @Bean

@@ -13,7 +13,6 @@ import com.osamuharu.user.presentation.dto.requests.UpdateUserDto;
 import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -48,8 +47,7 @@ public class UserService {
   }
 
   public UserDto getMe() throws UserPrincipalNotFoundException {
-    Authentication authentication = internalSecurityPort.getCurrentAuthentication();
-    UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+    UserDetails userDetails = internalSecurityPort.getCurrentUser();
 
     if (userDetails == null) {
       throw new UserPrincipalNotFoundException("User principal not found");
