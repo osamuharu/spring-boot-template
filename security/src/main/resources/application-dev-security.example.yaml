@@ -1,0 +1,21 @@
+app:
+  security:
+    public-urls:
+      - ${app.api.prefix}/${app.api.default-version}/auth/login
+      - ${app.api.prefix}/${app.api.default-version}/auth/register
+      - ${app.api.prefix}/${app.api.default-version}/auth/*/login
+      - ${app.api.prefix}/${app.api.default-version}/auth/*/register
+      - ${app.api.prefix}/${app.api.default-version}/public/**
+      - ${app.api.prefix}/${app.api.default-version}/*/public/**
+      - /actuator/health
+      - /actuator/info
+      - /v3/api-docs
+      - /v3/api-docs/**
+      - /swagger-ui/**
+      - /swagger-ui.html
+  jwt:
+    secret: ${JWT_SECRET}
+    access-token-expiration: ${JWT_ACCESS_TOKEN_EXPIRATION}
+
+  blacklist:
+    redis-token-prefix: "blacklist:token:"
