@@ -8,3 +8,4 @@ spring:
       - dev-shared
       - dev-notification
       - dev-file
+      - dev-user

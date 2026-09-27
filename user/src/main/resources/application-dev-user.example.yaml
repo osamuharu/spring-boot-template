@@ -1,0 +1,8 @@
+app:
+  user:
+    default-users:
+      - username: admin
+        first-name: ${ADMIN_FIRST_NAME:Admin}
+        last-name: ${ADMIN_LAST_NAME:User}
+        password: ${ADMIN_PASSWORD:admin123}
+        email: ${ADMIN_EMAIL:admin@gmail.com}
