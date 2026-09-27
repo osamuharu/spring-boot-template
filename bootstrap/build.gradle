@@ -32,6 +32,10 @@ final def redisPort = env("db.redis.port")
 final def redisPassword = env("db.redis.password")
 final def jwtSecret = env("security.jwt.secret")
 final def jwtAccessTokenExpiration = env("security.jwt.access.token.expiration")
+final def cloudinaryCloudName = env("cloudinary.cloud.name")
+final def cloudinaryApiKey = env("cloudinary.api.key")
+final def cloudinaryApiSecret = env("cloudinary.api.secret")
+final def cloudinaryFolder = env("cloudinary.folder")
 final def mailHost = env("mail.host")
 final def mailPort = env("mail.port")
 final def mailUsername = env("mail.username")
@@ -65,6 +69,10 @@ tasks.named('bootRun') {
     environment "REDIS_PASSWORD", redisPassword
     environment "JWT_SECRET", jwtSecret
     environment "JWT_ACCESS_TOKEN_EXPIRATION", jwtAccessTokenExpiration
+    environment "CLOUDINARY_CLOUD_NAME", cloudinaryCloudName
+    environment "CLOUDINARY_API_KEY", cloudinaryApiKey
+    environment "CLOUDINARY_API_SECRET", cloudinaryApiSecret
+    environment "CLOUDINARY_FOLDER", cloudinaryFolder
     environment "MAIL_HOST", mailHost
     environment "MAIL_PORT", mailPort
     environment "MAIL_USERNAME", mailUsername
@@ -88,6 +96,10 @@ tasks.named('test') {
     environment "REDIS_PASSWORD", redisPassword
     environment "JWT_SECRET", jwtSecret
     environment "JWT_ACCESS_TOKEN_EXPIRATION", jwtAccessTokenExpiration
+    environment "CLOUDINARY_CLOUD_NAME", cloudinaryCloudName
+    environment "CLOUDINARY_API_KEY", cloudinaryApiKey
+    environment "CLOUDINARY_API_SECRET", cloudinaryApiSecret
+    environment "CLOUDINARY_FOLDER", cloudinaryFolder
     environment "MAIL_HOST", mailHost
     environment "MAIL_PORT", mailPort
     environment "MAIL_USERNAME", mailUsername
