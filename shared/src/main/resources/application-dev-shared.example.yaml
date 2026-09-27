@@ -19,3 +19,13 @@ app:
     default-version: v1
     supported-versions:
       - v1
+  server:
+    urls:
+      - protocol: http
+        host: localhost
+        port: 8080
+        description: Development server
+      - protocol: https
+        host: neatgear.cloud
+        port:
+        description: Production server
